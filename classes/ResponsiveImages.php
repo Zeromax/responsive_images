@@ -63,7 +63,6 @@ class ResponsiveImages
 	 */
 	static function getBreakpoint()
 	{
-		$GLOBALS['TL_CONFIG']['breakPoints'] = '50 ,100 ,150';
 		$arrBreakPoints = trimsplit(",", $GLOBALS['TL_CONFIG']['breakPoints']);
 		asort($arrBreakPoints);
 		$clientWidth = self::getClientResolution();
