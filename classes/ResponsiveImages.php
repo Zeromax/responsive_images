@@ -27,7 +27,10 @@ class ResponsiveImages
 {
 	public function overrideImageSize($objTemplate)
 	{
-		$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
+		if (TL_MODE == "FE")
+		{
+			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
+		}
 	}
 
 	/**
