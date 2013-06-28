@@ -25,6 +25,10 @@ namespace Contao;
  */
 class ResponsiveImages
 {
+	/**
+	 * Hook to override teh max Image Width global
+	 * @param \Template $objTemplate
+	 */
 	public function overrideImageSize($objTemplate)
 	{
 		if (TL_MODE == "FE")
@@ -40,7 +44,6 @@ class ResponsiveImages
 	 */
 	public function overrideCacheKey($cacheKey)
 	{
-
 		return $cacheKey .= "." . self::getBreakpoint();
 	}
 
@@ -75,7 +78,6 @@ class ResponsiveImages
 			{
 				if($clientWidth <= $width) {
 					return $width;
-					break;
 				}
 			}
 
