@@ -60,6 +60,10 @@ class ResponsiveImages
 			$cookie_data = explode(",", \Input::cookie('resolution'));
 			$clientWidth = (int) $cookie_data[0];
 		}
+		else if($GLOBALS['TL_CONFIG']['mobileWidthFallback'] > 0 && \Environment::get('agent')->mobile)
+		{
+			$clientWidth = $GLOBALS['TL_CONFIG']['mobileWidthFallback'];
+		}
 		return $clientWidth;
 	}
 
