@@ -14,5 +14,6 @@
  * Backend Modules
  */
 $GLOBALS['TL_HEAD'][] = "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';</script>";
+//$GLOBALS['TL_HEAD'][] = "<script>document.cookie='resolution='+Math.max(window.innerWidth,window.innerHeight)+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';</script>";
 $GLOBALS['TL_HOOKS']['parseTemplate'][] = array('ResponsiveImages', 'overrideImageSize');
 $GLOBALS['TL_HOOKS']['getCacheKey'][] = array('ResponsiveImages', 'overrideCacheKey');
