@@ -83,14 +83,14 @@ class ResponsiveImages extends \Template
 			{
 				if ($strContent != "")
 				{
-					// It's a Hack... Ther must be another solution
+					// It's a Hack... There must be a better solution
 					$strContent = $this->replaceInsertTags($strContent);
 
 					$arrPattern = array();
 					// pattern for IMG Tags
-					$arrPattern['img'] = '/\<img[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']{1,}>/i';
+					$arrPattern['img'] = '/<img([^>]|(?<=[?])[>])*[>]/i';
 					// pattern for links
-					$arrPattern['link'] = '/\<a[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']{1,}>/i';
+					$arrPattern['link'] = '/<a([^>]|(?<=[?])[>])*[>]/i';
 
 					foreach ($arrPattern as $type=>$pattern)
 					{
