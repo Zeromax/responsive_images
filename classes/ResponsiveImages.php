@@ -83,9 +83,6 @@ class ResponsiveImages extends \Template
 			{
 				if ($strContent != "")
 				{
-					// It's a Hack... There must be a better solution
-					$strContent = $this->replaceInsertTags($strContent);
-
 					$arrPattern = array();
 					// pattern for IMG Tags
 					$arrPattern['img'] = '/<img([^>]|(?<=[?])[>])*[>]/i';
