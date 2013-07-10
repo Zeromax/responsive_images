@@ -23,79 +23,97 @@ namespace Contao;
  * @author    Andreas Nölke
  * @copyright Andreas Nölke 2013
  */
-class ResponsiveImages
+class ResponsiveImages extends \Template
 {
 	/**
-	 * Hook to override the max Image Width global
+	 * Hook to override the global max Image Width
 	 * @param \Template $objTemplate
 	 */
 	public function overrideImageSize($objTemplate)
 	{
 		if (TL_MODE == "FE")
 		{
+//			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
+//
+//			if($GLOBALS['TL_CONFIG']['maxImageWidth'] > 0 && isset($GLOBALS['TL_CONFIG']['elementToResizeImg']) && is_array($GLOBALS['TL_CONFIG']['elementToResizeImg']))
+//			{
+//				if($objTemplate->fullsize)
+//				{
+//					$resizeFile = $objTemplate->singleSRC;
+//					if (TL_FILES_URL != '')
+//					{
+//						$path = TL_FILES_URL . $GLOBALS['TL_CONFIG']['uploadPath'] . '/';
+//						$resizeFile = str_replace($path, "", $objTemplate->singleSRC);
+//					}
+//					if (file_exists(TL_ROOT .'/'. rawurldecode($resizeFile)))
+//					{
+//						$intMaxWidth = $GLOBALS['TL_CONFIG']['maxImageWidth'];
+//						$imgSize = @getimagesize(TL_ROOT .'/'. rawurldecode($resizeFile));
+//						if($imgSize[1] > $intMaxWidth || $imgSize[0] > $intMaxWidth)
+//						{
+//							$size[0] = $intMaxWidth;
+//							// Adjust the image size
+//							$ratio = $imgSize[1] / $imgSize[0];
+//							$size[1] = floor($intMaxWidth * $ratio);
+//							$src = \Image::get($resizeFile, $size[0], $size[1], '');
+//
+//							$objTemplate->singleSRC = $path.$src;
+//							$objTemplate->href = $path.$src;
+//						}
+//					}
+//					// Get the file entries from the database
+//					$objFiles = \FilesModel::findMultipleByIds($objTemplate->multiSRC);
+//
+//					if ($objFiles === null)
+//					{
+//						return '';
+//					}
+//				}
+//			}
+		}
+	}
+
+	public function replaceImages($strContent, $strTemplate)
+	{
+		if (TL_MODE == "FE")
+		{
 			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
-			$arrResize = array();
-			$arrResize[] = array ('ce_text', 'text');
 
-			if($GLOBALS['TL_CONFIG']['maxImageWidth'] > 0 && isset($GLOBALS['TL_CONFIG']['elementToResizeImg']) && is_array($GLOBALS['TL_CONFIG']['elementToResizeImg']))
+			if($GLOBALS['TL_CONFIG']['maxImageWidth'] > 0 && strpos($strTemplate, 'fe_', 0) !== false)
 			{
-				foreach ($arrResize as $element)
+				if ($strContent != "")
 				{
-					if($objTemplate->getName() == $element[0])
+					// It's a Hack... Ther must be another solution
+					$strContent = $this->replaceInsertTags($strContent);
+
+					$arrPattern = array();
+					// pattern for IMG Tags
+					$arrPattern['img'] = '/\<img[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']*>/i';
+					// pattern for links
+					$arrPattern['link'] = '/\<a[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']*>/i';
+
+					foreach ($arrPattern as $type=>$pattern)
 					{
-						// pattern for IMG Tags
-						$pattern = '/\<img[a-z0-9%#:&;\/\.\_\-\="\s]*>/i';
-						$subject = $element[1];
-						$matches = "";
-						preg_match_all($pattern, $objTemplate->$subject, $matches);
-
-						// Replace each file if necessary
-						foreach($matches[0] as $file)
+						switch ($type)
 						{
-							// Pattern for height| width | src
-							$imgPattern = '/(src="(?<file>(files|tl_files)[a-z0-9%\/\s\.\-\_]{0,250})")|(width="(?<width>[0-9]{1,9})")|(height="(?<height>[0-9]{1,9})")/i';
-							$fileMatches = "";
-							preg_match_all($imgPattern, $file, $fileMatches);
-
-							$tmpFile =  array_filter($fileMatches['file']);
-							sort($tmpFile);
-							$resizeFile = $tmpFile[0];
-
-							$path = "";
-							if (TL_FILES_URL != '')
-							{
-								$path = TL_FILES_URL . $GLOBALS['TL_CONFIG']['uploadPath'] . '/';
-								$resizeFile = str_replace($path, "", $resizeFile);
-							}
-							if (file_exists(TL_ROOT .'/'. rawurldecode($resizeFile)))
-							{
-								$intMaxWidth = $GLOBALS['TL_CONFIG']['maxImageWidth'];
-								$imgSize = @getimagesize(TL_ROOT .'/'. rawurldecode($resizeFile));
-								if($imgSize[1] > $intMaxWidth || $imgSize[0] > $intMaxWidth)
-								{
-									// Adjust the image size
-									$ratio = $imgSize[1] / $imgSize[0];
-
-									$size[0] = $intMaxWidth;
-									$size[1] = floor($intMaxWidth * $ratio);
-									$src = \Image::get($resizeFile, $size[0], $size[1], '');
-									$replaceFile = str_replace( 'src="'.$tmpFile[0], 'src="'.$path.$src, $file );
-									$replaceFile = str_replace( rawurldecode($tmpFile[0]), $path.$src, $replaceFile );
-									$tmpWidth =  array_filter($fileMatches['width']);
-									sort($tmpWidth);
-									$replaceFile = str_replace( 'width="'.$tmpWidth[0], 'width="'.$size[0], $replaceFile );
-									$tmpHeight =  array_filter($fileMatches['height']);
-									sort($tmpHeight);
-									$replaceFile = str_replace( 'height="'.$tmpHeight[0], 'height="'.$size[1], $replaceFile );
-
-									$objTemplate->$subject = str_replace( $file, $replaceFile, $objTemplate->$subject );
-								}
-							}
+							case "img":
+								// Pattern for height| width | src
+								$imgPattern = '/(src=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{0,850})")|(width=("|\')(?<width>[0-9]{1,9})("|\'))|(height=("|\')(?<height>[0-9]{1,9})("|\'))/i';
+								$strContent = $this->getFileToReplace($pattern, $imgPattern, $strContent, $type);
+								break;
+							case "link":
+								// Pattern for href
+								$imgPattern = '/(href=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{0,850}\.(jpe?g|gif|png))("|\'))/i';
+								$strContent = $this->getFileToReplace($pattern, $imgPattern, $strContent, $type);
+								break;
+							default:
+								break;
 						}
 					}
 				}
 			}
 		}
+		return $strContent;
 	}
 
 	/**
@@ -141,12 +159,82 @@ class ResponsiveImages
 		{
 			foreach($arrBreakPoints as $width)
 			{
-				if($clientWidth <= $width) {
-					return $width;
-				}
+				if($clientWidth <= $width) return $width;
 			}
 
 		}
 		return 0;
+	}
+
+	/**
+	 * Replace alle images
+	 *
+	 * @param String $pattern
+	 * @param String $imgPattern
+	 * @param String $strContent
+	 * @param String $matches
+	 * @param String $type
+	 * @return String
+	 */
+	protected function getFileToReplace($pattern, $imgPattern, $strContent, $type)
+	{
+		$matches = "";
+		preg_match_all($pattern, $strContent, $matches);
+
+		// Replace each image if necessary
+		foreach($matches[0] as $file)
+		{
+			if ($file == "" || $file === null) continue;
+			$fileMatches = "";
+			$replaceFile = "";
+			preg_match_all($imgPattern, $file, $fileMatches);
+
+			$tmpFile =  array_filter($fileMatches['file']);
+			sort($tmpFile);
+
+			if (!isset($tmpFile[0])) continue;
+			$resizeFile = $tmpFile[0];
+			$path = "";
+			if (TL_FILES_URL != '')
+			{
+				$path = TL_FILES_URL . $GLOBALS['TL_CONFIG']['uploadPath'] . '/';
+				$resizeFile = str_replace($path, "", $resizeFile);
+			}
+			if (file_exists(TL_ROOT .'/'. rawurldecode($resizeFile)))
+			{
+				$intMaxWidth = $GLOBALS['TL_CONFIG']['maxImageWidth'];
+				$imgSize = @getimagesize(TL_ROOT .'/'. rawurldecode($resizeFile));
+				if($imgSize[1] > $intMaxWidth || $imgSize[0] > $intMaxWidth)
+				{
+					// Adjust the image size
+					$ratio = $imgSize[1] / $imgSize[0];
+
+					$size[0] = $intMaxWidth;
+					$size[1] = floor($intMaxWidth * $ratio);
+					$src = \Image::get($resizeFile, $size[0], $size[1], '');
+					switch ($type)
+					{
+						case "img":
+							$replaceFile = str_replace( 'src="'.$tmpFile[0], 'src="'.$path.$src, $file );
+							$replaceFile = str_replace( rawurldecode($tmpFile[0]), $path.$src, $replaceFile );
+							$tmpWidth =  array_filter($fileMatches['width']);
+							sort($tmpWidth);
+							$replaceFile = str_replace( 'width="'.$tmpWidth[0], 'width="'.$size[0], $replaceFile );
+							$tmpHeight =  array_filter($fileMatches['height']);
+							sort($tmpHeight);
+							$replaceFile = str_replace( 'height="'.$tmpHeight[0], 'height="'.$size[1], $replaceFile );
+							break;
+						case "link":
+							$replaceFile = str_replace( 'href="'.$tmpFile[0], 'href="'.$path.$src, $file );
+							$replaceFile = str_replace( rawurldecode($tmpFile[0]), $path.$src, $replaceFile );
+							break;
+						default:
+							break;
+					}
+					$strContent = str_replace( $file, $replaceFile, $strContent );
+				}
+			}
+		}
+		return $strContent;
 	}
 }
