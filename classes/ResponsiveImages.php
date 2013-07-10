@@ -88,9 +88,9 @@ class ResponsiveImages extends \Template
 
 					$arrPattern = array();
 					// pattern for IMG Tags
-					$arrPattern['img'] = '/\<img[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']*>/i';
+					$arrPattern['img'] = '/\<img[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']{1,}>/i';
 					// pattern for links
-					$arrPattern['link'] = '/\<a[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']*>/i';
+					$arrPattern['link'] = '/\<a[a-zA-Z0-9%#_:&;\/\.\-\=\"\s\']{1,}>/i';
 
 					foreach ($arrPattern as $type=>$pattern)
 					{
@@ -98,12 +98,12 @@ class ResponsiveImages extends \Template
 						{
 							case "img":
 								// Pattern for height| width | src
-								$imgPattern = '/(src=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{0,850})")|(width=("|\')(?<width>[0-9]{1,9})("|\'))|(height=("|\')(?<height>[0-9]{1,9})("|\'))/i';
+								$imgPattern = '/(src=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{1,})")|(width=("|\')(?<width>[0-9]{1,})("|\'))|(height=("|\')(?<height>[0-9]{1,})("|\'))/i';
 								$strContent = $this->getFileToReplace($pattern, $imgPattern, $strContent, $type);
 								break;
 							case "link":
 								// Pattern for href
-								$imgPattern = '/(href=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{0,850}\.(jpe?g|gif|png))("|\'))/i';
+								$imgPattern = '/(href=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{1,}\.(jpe?g|gif|png))("|\'))/i';
 								$strContent = $this->getFileToReplace($pattern, $imgPattern, $strContent, $type);
 								break;
 							default:
