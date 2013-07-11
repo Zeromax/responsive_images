@@ -48,7 +48,7 @@ class ResponsiveImages
 				$script = "<script>document.cookie='resolution='+window.innerWidth+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';window.location.reload(true);</script>";
 			}
 
-			if(($forceCookie === true) || ($GLOBALS['TL_CONFIG']['maxImageWidth'] === 0 && $session->get('resolution') != true))
+			if(\Input::get('noscript') != 1 && ($forceCookie === true || ($GLOBALS['TL_CONFIG']['maxImageWidth'] === 0 && $session->get('resolution') == "")))
 			{
 				$session->set('resolution', true);
 				if (file_exists(TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5'))
