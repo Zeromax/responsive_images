@@ -1,0 +1,1 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><?php echo $script; ?><meta http-equiv="Refresh" content="1; URL=<?php echo \Environment::get('base') ?>"></head><body></body></html>

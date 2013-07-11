@@ -23,59 +23,53 @@ namespace Contao;
  * @author    Andreas Nölke
  * @copyright Andreas Nölke 2013
  */
-class ResponsiveImages extends \Template
+class ResponsiveImages
 {
 	/**
-	 * Hook to override the global max Image Width
-	 * @param \Template $objTemplate
+	 * Hook to set the Cookie the first time the Site is loading
 	 */
-	public function overrideImageSize($objTemplate)
+	public function setCookie()
 	{
 		if (TL_MODE == "FE")
 		{
-//			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
-//
-//			if($GLOBALS['TL_CONFIG']['maxImageWidth'] > 0 && isset($GLOBALS['TL_CONFIG']['elementToResizeImg']) && is_array($GLOBALS['TL_CONFIG']['elementToResizeImg']))
-//			{
-//				if($objTemplate->fullsize)
-//				{
-//					$resizeFile = $objTemplate->singleSRC;
-//					if (TL_FILES_URL != '')
-//					{
-//						$path = TL_FILES_URL . $GLOBALS['TL_CONFIG']['uploadPath'] . '/';
-//						$resizeFile = str_replace($path, "", $objTemplate->singleSRC);
-//					}
-//					if (file_exists(TL_ROOT .'/'. rawurldecode($resizeFile)))
-//					{
-//						$intMaxWidth = $GLOBALS['TL_CONFIG']['maxImageWidth'];
-//						$imgSize = @getimagesize(TL_ROOT .'/'. rawurldecode($resizeFile));
-//						if($imgSize[1] > $intMaxWidth || $imgSize[0] > $intMaxWidth)
-//						{
-//							$size[0] = $intMaxWidth;
-//							// Adjust the image size
-//							$ratio = $imgSize[1] / $imgSize[0];
-//							$size[1] = floor($intMaxWidth * $ratio);
-//							$src = \Image::get($resizeFile, $size[0], $size[1], '');
-//
-//							$objTemplate->singleSRC = $path.$src;
-//							$objTemplate->href = $path.$src;
-//						}
-//					}
-//					// Get the file entries from the database
-//					$objFiles = \FilesModel::findMultipleByIds($objTemplate->multiSRC);
-//
-//					if ($objFiles === null)
-//					{
-//						return '';
-//					}
-//				}
-//			}
+			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
+			$session = \Session::getInstance();
+			$script = "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';window.location.reload(true);</script>";
+			$forceCookie = $GLOBALS['TL_CONFIG']['forceResponsiveCookie'];
+
+			if($forceCookie === true && $session->get('forceCookie') === true)
+			{
+				$forceCookie = false;
+				$session->set('forceCookie', false);
+			}
+			if ($forceCookie)
+			{
+				$session->set('forceCookie', true);
+				$script = "<script>document.cookie='resolution='+window.innerWidth+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';window.location.reload(true);</script>";
+			}
+
+			if(($forceCookie === true) || ($GLOBALS['TL_CONFIG']['maxImageWidth'] === 0 && $session->get('resolution') != true))
+			{
+				$session->set('resolution', true);
+				if (file_exists(TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5'))
+				{
+					include TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5';
+					exit;
+				}
+			}
 		}
 	}
 
+	/**
+	 * Replace all Images in the HTML markup wich ar bigger than the maxImageWidth
+	 *
+	 * @param string $strContent
+	 * @param string $strTemplate
+	 * @return string
+	 */
 	public function replaceImages($strContent, $strTemplate)
 	{
-		if (TL_MODE == "FE")
+		if (TL_MODE == "FE" && \Input::cookie('resolution') != "")
 		{
 			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
 
@@ -166,12 +160,11 @@ class ResponsiveImages extends \Template
 	/**
 	 * Replace alle images
 	 *
-	 * @param String $pattern
-	 * @param String $imgPattern
-	 * @param String $strContent
-	 * @param String $matches
-	 * @param String $type
-	 * @return String
+	 * @param string $pattern
+	 * @param string $imgPattern
+	 * @param string $strContent
+	 * @param string $type
+	 * @return string
 	 */
 	protected function getFileToReplace($pattern, $imgPattern, $strContent, $type)
 	{
