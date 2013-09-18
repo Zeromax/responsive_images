@@ -83,6 +83,8 @@ class ResponsiveImages
 					$arrPattern['img'] = '/<img([^>]|(?<=[?])[>])*[>]/i';
 					// pattern for links
 					$arrPattern['link'] = '/<a([^>]|(?<=[?])[>])*[>]/i';
+					// pattern for divs
+					$arrPattern['div'] = '/<div([^>]|(?<=[?])[>])*[>]/i';
 
 					foreach ($arrPattern as $type=>$pattern)
 					{
@@ -96,6 +98,11 @@ class ResponsiveImages
 							case "link":
 								// Pattern for href
 								$imgPattern = '/(href=("|\')(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{1,}\.(jpe?g|gif|png))("|\'))/i';
+								$strContent = $this->getFileToReplace($pattern, $imgPattern, $strContent, $type);
+								break;
+							case "div":
+								// Pattern for div
+								$imgPattern = '/(style=("|\').*?background-image:.*url\(("|\'|)(?<file>(files|tl_files)[a-zA-Z0-9%#_:&;\/\.\-\s]{1,}\.(jpe?g|gif|png))("|\'|)\).*?("|\'))/i';
 								$strContent = $this->getFileToReplace($pattern, $imgPattern, $strContent, $type);
 								break;
 							default:
@@ -217,6 +224,10 @@ class ResponsiveImages
 							break;
 						case "link":
 							$replaceFile = str_replace( 'href="'.$tmpFile[0], 'href="'.$path.$src, $file );
+							$replaceFile = str_replace( rawurldecode($tmpFile[0]), $path.$src, $replaceFile );
+							break;
+						case "div":
+							$replaceFile = str_replace( 'url('.$tmpFile[0], 'url('.$path.$src, $file );
 							$replaceFile = str_replace( rawurldecode($tmpFile[0]), $path.$src, $replaceFile );
 							break;
 						default:
