@@ -30,7 +30,10 @@ class ResponsiveImages
 	 */
 	public function setCookie()
 	{
-		if (TL_MODE == "FE")
+		// Check if there is a Bot. Now we need the [botdetection] extension from BugBuster. See #3.
+		// https://contao.org/en/extension-list/view/botdetection.html
+		$objBot = new \BotDetection\ModuleBotDetection();
+		if (TL_MODE == "FE" && $objBot->BD_CheckBotAgent() == false && $objBot->BD_CheckBotIP() == false)
 		{
 			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
 			$session = \Session::getInstance();
