@@ -30,35 +30,38 @@ class ResponsiveImages
 	 */
 	public function setCookie()
 	{
-		// Check if there is a Bot. Now we need the [botdetection] extension from BugBuster. See #3.
-		// https://contao.org/en/extension-list/view/botdetection.html
-		$objBot = new \BotDetection\ModuleBotDetection();
-		if (TL_MODE == "FE" && $objBot->BD_CheckBotAgent() == false && $objBot->BD_CheckBotIP() == false)
+		if(TL_MODE == "FE")
 		{
-			$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
-			$session = \Session::getInstance();
-			$script = "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';";
-			$forceCookie = $GLOBALS['TL_CONFIG']['forceResponsiveCookie'];
+			// Check if there is a Bot. Now we need the [botdetection] extension from BugBuster. See #3.
+			// https://contao.org/en/extension-list/view/botdetection.html
+			$objBot = new \BotDetection\ModuleBotDetection();
+			if ($objBot->BD_CheckBotAgent() == false && $objBot->BD_CheckBotIP() == false)
+			{
+				$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
+				$session = \Session::getInstance();
+				$script = "<script>document.cookie='resolution='+Math.max(screen.width,screen.height)+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';";
+				$forceCookie = $GLOBALS['TL_CONFIG']['forceResponsiveCookie'];
 
-			if($forceCookie === true && $session->get('forceCookie') === true)
-			{
-				$forceCookie = false;
-				$session->set('forceCookie', false);
-			}
-			if ($forceCookie)
-			{
-				$session->set('forceCookie', true);
-				$script = "<script>document.cookie='resolution='+window.innerWidth+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';";
-			}
-
-			if(\Input::get('noscript') != 1 && ($forceCookie === true || ($GLOBALS['TL_CONFIG']['maxImageWidth'] === 0 && $session->get('resolution') == "")))
-			{
-				$script .= 'if(navigator.cookieEnabled){window.location.reload(true);}else{window.location = "' . \Environment::get('url') . \Environment::get('requestUri') . '?noscript=1";}</script>';
-				$session->set('resolution', true);
-				if (file_exists(TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5'))
+				if($forceCookie === true && $session->get('forceCookie') === true)
 				{
-					include TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5';
-					exit;
+					$forceCookie = false;
+					$session->set('forceCookie', false);
+				}
+				if ($forceCookie)
+				{
+					$session->set('forceCookie', true);
+					$script = "<script>document.cookie='resolution='+window.innerWidth+('devicePixelRatio' in window ? ','+devicePixelRatio : ',1')+'; path=".\Environment::get('path')."';";
+				}
+
+				if(\Input::get('noscript') != 1 && ($forceCookie === true || ($GLOBALS['TL_CONFIG']['maxImageWidth'] === 0 && $session->get('resolution') == "")))
+				{
+					$script .= 'if(navigator.cookieEnabled){window.location.reload(true);}else{window.location = "' . \Environment::get('url') . \Environment::get('requestUri') . '?noscript=1";}</script>';
+					$session->set('resolution', true);
+					if (file_exists(TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5'))
+					{
+						include TL_ROOT . '/system/modules/responsive_images/templates/redirect_page.html5';
+						exit;
+					}
 				}
 			}
 		}
