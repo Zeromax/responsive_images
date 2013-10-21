@@ -30,7 +30,8 @@ class ResponsiveImages
 	 */
 	public function setCookie()
 	{
-		if(TL_MODE == "FE")
+		// Check if POST and GET Data is empty. See #4
+		if(TL_MODE == "FE" && empty($_POST) && empty($_GET))
 		{
 			// Check if there is a Bot. Now we need the [botdetection] extension from BugBuster. See #3.
 			// https://contao.org/en/extension-list/view/botdetection.html
