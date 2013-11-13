@@ -36,7 +36,7 @@ class ResponsiveImages
 			// Check if there is a Bot. Now we need the [botdetection] extension from BugBuster. See #3.
 			// https://contao.org/en/extension-list/view/botdetection.html
 			$objBot = new \BotDetection\ModuleBotDetection();
-			if ($objBot->BD_CheckBotAgent() == false && $objBot->BD_CheckBotIP() == false)
+			if ($objBot->BD_CheckBotAgent() === false && $objBot->BD_CheckBotIP() === false && $objBot->BD_CheckBotAgentAdvanced() === false)
 			{
 				$GLOBALS['TL_CONFIG']['maxImageWidth'] = self::getBreakpoint();
 				$session = \Session::getInstance();
