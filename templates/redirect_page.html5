@@ -1,1 +1,0 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><?php echo $script; ?><noscript><meta http-equiv="Refresh" content="0; URL=<?php echo \Environment::get('url') . \Environment::get('requestUri') ?>?noscript=1"></noscript></head><body></body></html>
