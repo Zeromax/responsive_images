@@ -31,7 +31,7 @@ class PictureFill
 	 */
 	public function parseTemplate($objTemplate)
 	{
-		$this->createPicturePolyfill($objTemplate);
+		$this->createPictureFill($objTemplate);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class PictureFill
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 */
-	public function createPicturePolyfill($objTemplate)
+	public function createPictureFill($objTemplate)
 	{
 		$arrBreakPoints = trimsplit(',', $GLOBALS['TL_CONFIG']['breakPoints']);
 		$arrImageFields = $this->getImageFields($objTemplate);
@@ -56,7 +56,7 @@ class PictureFill
 		$arrPictureFill = array();
 		foreach ($arrBreakPoints as $breakPoint)
 		{
-			$objImage = $this->addImageToPolyfill($arrItem, $breakPoint, $strLightboxId);
+			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint, $strLightboxId);
 			if ($objImage)
 			{
 				$arrPictureFill[] = $objImage;
@@ -117,7 +117,7 @@ class PictureFill
 	 *
 	 * @return object
 	 */
-	protected function addImageToPolyfill($arrItem, $breakPoint, $strLightboxId)
+	protected function addImageToPictureFill($arrItem, $breakPoint, $strLightboxId)
 	{
 		if ($breakPoint < 1 && $breakPoint == "")
 		{
