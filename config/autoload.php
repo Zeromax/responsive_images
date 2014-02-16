@@ -1,20 +1,24 @@
 <?php
 
 /**
- * responsiveimages
+ * responsive_images
  *
- * Copyright (C) 2013 Andreas Nölke
+ * Copyright (C) 2013 - 2014 Andreas Nölke
  *
- * @package   responsiveimages
+ * @package   responsive_images
  * @author    Andreas Nölke
- * @copyright Andreas Nölke 2013
+ * @copyright Andreas Nölke 2013 - 2014
  */
+/**
+ * Register the namespace
+ */
+ClassLoader::addNamespace('ResponsiveImages');
 
 /**
  * Register the classes
  */
 ClassLoader::addClasses(array
-(
+	(
 	// Classes
-	'Contao\ResponsiveImages' => 'system/modules/responsive_images/classes/ResponsiveImages.php'
+	'ResponsiveImages\PictureFill' => 'system/modules/responsive_images/classes/PictureFill.php'
 ));

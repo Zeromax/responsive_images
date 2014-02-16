@@ -1,13 +1,13 @@
 <?php
 
 /**
- * responsiveimages
+ * responsive_images
  *
- * Copyright (C) 2013 Andreas Nölke
+ * Copyright (C) 2013 - 2014 Andreas Nölke
  *
- * @package   responsiveimages
+ * @package   responsive_images
  * @author    Andreas Nölke
- * @copyright Andreas Nölke 2013
+ * @copyright Andreas Nölke 2013 - 2014
  */
 
 $GLOBALS['TL_LANG']['tl_settings']['breakPoints'][0] = "Breakpoint [responsive_images]";
