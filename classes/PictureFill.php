@@ -32,7 +32,6 @@ class PictureFill
 	public function parseTemplate($objTemplate)
 	{
 		$this->createPicturePolyfill($objTemplate);
-		echo "<pre>".print_r($objTemplate->pictureFill, true)."</pre>";
 	}
 
 	/**
