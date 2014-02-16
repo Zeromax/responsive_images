@@ -26,6 +26,7 @@ class PictureFill
 {
 
 	/**
+	 * Add the picture fill to the template
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 */
@@ -41,10 +42,13 @@ class PictureFill
 	 */
 	public function createPictureFill($objTemplate)
 	{
-		$arrBreakPoints = trimsplit(',', $GLOBALS['TL_CONFIG']['breakPoints']);
-		sort($arrBreakPoints);
 		$arrImageFields = $this->getImageFields($objTemplate);
-		if (!is_array($arrBreakPoints) || !is_array($arrImageFields))
+		if (!is_array($arrImageFields))
+		{
+			return;
+		}
+		$arrBreakPoints = $this->getBreakPoints();
+		if (!is_array($arrBreakPoints))
 		{
 			return;
 		}
@@ -120,14 +124,21 @@ class PictureFill
 	 */
 	protected function addImageToPictureFill($arrItem, $breakPoint)
 	{
-		if ($breakPoint < 1 && $breakPoint == "")
+		if (is_array($breakPoint) && $breakPoint['breakPoint'] < 1 && $breakPoint['breakPoint'] == "")
 		{
 			return null;
 		}
 
 		$objImage = new \stdClass;
-		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint, '');
-		$objImage->breakPoint = $breakPoint;
+		if (isset ($breakPoint['size']) && $breakPoint['size'] != "")
+		{
+			$size = deserialize($arrItem['size']);
+			// set the normal width to the image
+			$breakPoint['size'][0] = $size[0];
+			$arrItem['size'] = $breakPoint['size'];
+		}
+		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint['breakPoint'], '');
+		$objImage->breakPoint = $breakPoint['breakPoint'];
 		return $objImage;
 	}
 
@@ -146,6 +157,41 @@ class PictureFill
 			$arrItem[$key] = $objTemplate->$field;
 		}
 		return $arrItem;
+	}
+
+	/**
+	 * Read the global break points and return it as array
+	 *
+	 * @return array
+	 */
+	public static function getBreakPoints()
+	{
+		$arrBreakPoints = trimsplit(',', $GLOBALS['TL_CONFIG']['breakPoints']);
+
+		$arrReturn = array();
+		foreach ($arrBreakPoints as $key => $breakPointConfig)
+		{
+			$arrBreakPointConfig = trimsplit('|', $breakPointConfig);
+
+			if (isset($arrBreakPointConfig[0]))
+			{
+				$arrReturn[$key]['breakPoint'] = (int)$arrBreakPointConfig[0];
+			}
+			if (isset($arrBreakPointConfig[0]) && (isset($arrBreakPointConfig[1]) || isset($arrBreakPointConfig[2])))
+			{
+				$arrSize = array();
+				// height
+				$arrSize[] = (int)$arrBreakPointConfig[0];
+				// width
+				$arrSize[] = (isset($arrBreakPointConfig[1]) && (int)$arrBreakPointConfig[1] > 0) ? (int)$arrBreakPointConfig[1] : 0;
+				// mode
+				$arrSize[] = (isset($arrBreakPointConfig[2]) && $arrBreakPointConfig[2] != "") ? $arrBreakPointConfig[2] : 'proportional';
+				$arrReturn[$key]['size'] = $arrSize;
+			}
+		}
+
+		// @TODO: Sort Breakpoints
+		return $arrReturn;
 	}
 
 }
