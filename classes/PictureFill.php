@@ -69,6 +69,7 @@ class PictureFill
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 * @param boolean $checkMandatory
+	 *
 	 * @return array
 	 */
 	protected function getImageFields($objTemplate, $checkMandatory = true)
@@ -109,6 +110,7 @@ class PictureFill
 	}
 
 	/**
+	 * Crate the picture and return it as object
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 * @param array $arrImageFields
@@ -130,6 +132,7 @@ class PictureFill
 	}
 
 	/**
+	 * Create Item Array from image fields
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 * @param array $arrImageFields
