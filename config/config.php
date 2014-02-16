@@ -38,7 +38,7 @@ if (TL_MODE == "FE")
 				'mandatory'		=> array('singleSRC', 'addImage')
 		),
 		'accordionSingle' => array(
-				'singleSRC'			=> 'singleSRC',
+				'singleSRC'		=> 'singleSRC',
 				'alt'			=> 'alt',
 				'title'			=> 'title',
 				'size'			=> 'size',
@@ -59,7 +59,7 @@ if (TL_MODE == "FE")
 				'imageUrl'		=> 'imageUrl',
 				'fullsize'		=> 'fullsize',
 				'caption'		=> 'caption',
-				'mandatory'		=> 'singleSRC'
+				'mandatory'		=> array('singleSRC')
 		),
 	);
 }
