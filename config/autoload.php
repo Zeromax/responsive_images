@@ -22,3 +22,13 @@ ClassLoader::addClasses(array
 	// Classes
 	'ResponsiveImages\PictureFill' => 'system/modules/responsive_images/classes/PictureFill.php'
 ));
+
+/**
+ * Register the templates
+ */
+TemplateLoader::addFiles(array
+(
+	'ce_accordion'      => 'system/modules/responsive_images/templates/elements',
+	'ce_image'			=> 'system/modules/responsive_images/templates/elements',
+	'ce_text'			=> 'system/modules/responsive_images/templates/elements',
+));
