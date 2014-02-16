@@ -42,6 +42,7 @@ class PictureFill
 	public function createPictureFill($objTemplate)
 	{
 		$arrBreakPoints = trimsplit(',', $GLOBALS['TL_CONFIG']['breakPoints']);
+		sort($arrBreakPoints);
 		$arrImageFields = $this->getImageFields($objTemplate);
 		if (!is_array($arrBreakPoints) || !is_array($arrImageFields))
 		{
@@ -49,14 +50,12 @@ class PictureFill
 		}
 
 		$arrItem = $this->createItemArray($objTemplate, $arrImageFields);
-		// @TODO: the Lightbox string should be the same every time!
-		$strLightboxId = "";
 
 		// create Picture Fill Array
 		$arrPictureFill = array();
 		foreach ($arrBreakPoints as $breakPoint)
 		{
-			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint, $strLightboxId);
+			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
 			if ($objImage)
 			{
 				$arrPictureFill[] = $objImage;
@@ -117,7 +116,7 @@ class PictureFill
 	 *
 	 * @return object
 	 */
-	protected function addImageToPictureFill($arrItem, $breakPoint, $strLightboxId)
+	protected function addImageToPictureFill($arrItem, $breakPoint)
 	{
 		if ($breakPoint < 1 && $breakPoint == "")
 		{
@@ -125,7 +124,8 @@ class PictureFill
 		}
 
 		$objImage = new \stdClass;
-		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint, $strLightboxId);
+		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint, '');
+		$objImage->breakPoint = $breakPoint;
 		return $objImage;
 	}
 
