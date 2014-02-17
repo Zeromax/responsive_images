@@ -47,17 +47,19 @@ class PictureFill
 		{
 			return;
 		}
-		$arrBreakPoints = $this->getBreakPoints();
+		$arrBreakPoints = $this->getBreakPoints($GLOBALS['TL_CONFIG']['breakPoints']);
+
 		if (!is_array($arrBreakPoints))
 		{
 			return;
 		}
 
 		$arrItem = $this->createItemArray($objTemplate, $arrImageFields);
+		$arrBreakPointConfig = $this->createBreakPointConfigs($arrBreakPoints, $arrItem['singleSRC']);
 
 		// create Picture Fill Array
 		$arrPictureFill = array();
-		foreach ($arrBreakPoints as $breakPoint)
+		foreach ($arrBreakPointConfig as $breakPoint)
 		{
 			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
 			if ($objImage)
@@ -130,11 +132,8 @@ class PictureFill
 		}
 
 		$objImage = new \stdClass;
-		if (isset ($breakPoint['size']) && $breakPoint['size'] != "")
+		if (isset($breakPoint['size']) && $breakPoint['size'] != "")
 		{
-			$size = deserialize($arrItem['size']);
-			// set the normal width to the image
-			$breakPoint['size'][0] = $size[0];
 			$arrItem['size'] = $breakPoint['size'];
 		}
 		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint['breakPoint'], '');
@@ -147,6 +146,7 @@ class PictureFill
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 * @param array $arrImageFields
+	 *
 	 * @return array
 	 */
 	protected function createItemArray($objTemplate, $arrImageFields)
@@ -160,37 +160,78 @@ class PictureFill
 	}
 
 	/**
-	 * Read the global break points and return it as array
+	 * Create the Breakpoint config for an image
 	 *
-	 * @return array
+	 * @param array $arrBreakPoints
+	 * @param String $strImagePath
 	 */
-	public static function getBreakPoints()
+	protected function createBreakPointConfigs($arrBreakPoints, $strImagePath)
 	{
-		$arrBreakPoints = trimsplit(',', $GLOBALS['TL_CONFIG']['breakPoints']);
+		$objFile = \FilesModel::findByPath($strImagePath);
+		if (!$objFile)
+		{
+			return $arrBreakPoints;
+		}
 
 		$arrReturn = array();
-		foreach ($arrBreakPoints as $key => $breakPointConfig)
+		$arrBreakPointCropping = trimsplit(',', $objFile->breakPointCropping);
+		foreach ($arrBreakPoints as $key => $breakPoint)
 		{
-			$arrBreakPointConfig = trimsplit('|', $breakPointConfig);
-
-			if (isset($arrBreakPointConfig[0]))
+			$arrReturn[$key] = $breakPoint;
+			if (isset($arrBreakPointCropping[$key]))
 			{
-				$arrReturn[$key]['breakPoint'] = (int)$arrBreakPointConfig[0];
-			}
-			if (isset($arrBreakPointConfig[0]) && (isset($arrBreakPointConfig[1]) || isset($arrBreakPointConfig[2])))
-			{
-				$arrSize = array();
-				// height
-				$arrSize[] = (int)$arrBreakPointConfig[0];
-				// width
-				$arrSize[] = (isset($arrBreakPointConfig[1]) && (int)$arrBreakPointConfig[1] > 0) ? (int)$arrBreakPointConfig[1] : 0;
-				// mode
-				$arrSize[] = (isset($arrBreakPointConfig[2]) && $arrBreakPointConfig[2] != "") ? $arrBreakPointConfig[2] : 'proportional';
-				$arrReturn[$key]['size'] = $arrSize;
+				$arrReturn[$key]['size'] = serialize($this->createBreakPointConfigArray($arrBreakPointCropping[$key]));
 			}
 		}
 
-		// @TODO: Sort Breakpoints
+		return $arrReturn;
+	}
+
+	/**
+	 * Read the break points from a given String and return it as array
+	 *
+	 * @param String $strBreakPoints
+	 *
+	 * @return array
+	 */
+	protected function getBreakPoints($strBreakPoints)
+	{
+		$arrBreakPoints = trimsplit(',', $strBreakPoints);
+
+		// unique breakpoints
+		$arrBreakPoints = array_unique($arrBreakPoints);
+		// Sort Breakpoints -> smallest first
+		sort($arrBreakPoints);
+
+		$arrReturn = array();
+		foreach ($arrBreakPoints as $key => $breakPoint)
+		{
+			$arrReturn[$key]['breakPoint'] = (int)$breakPoint;
+		}
+		return $arrReturn;
+	}
+
+	/**
+	 * Create Config Array from config String
+	 *
+	 * @param type $breakPointConfig
+	 *
+	 * @return array
+	 */
+	protected function createBreakPointConfigArray($breakPointConfig)
+	{
+		$arrBreakPointConfig = trimsplit('|', $breakPointConfig);
+
+		$arrReturn = array();
+		if (isset($arrBreakPointConfig[0]) && (isset($arrBreakPointConfig[1]) || isset($arrBreakPointConfig[2])))
+		{
+			// width
+			$arrReturn[] = (int)$arrBreakPointConfig[0];
+			// height
+			$arrReturn[] = (isset($arrBreakPointConfig[1]) && (int)$arrBreakPointConfig[1] > 0) ? (int)$arrBreakPointConfig[1] : 0;
+			// mode
+			$arrReturn[] = (isset($arrBreakPointConfig[2]) && $arrBreakPointConfig[2] != "") ? $arrBreakPointConfig[2] : 'proportional';
+		}
 		return $arrReturn;
 	}
 
