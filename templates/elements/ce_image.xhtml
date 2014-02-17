@@ -13,8 +13,8 @@
 
       <?php if ($this->pictureFill): ?>
 	    <span data-picture data-alt="<?php echo $this->pictureFill[0]->alt; ?>"<?php if ($this->title): ?> data-title="<?php echo $this->pictureFill[0]->title; ?>"<?php endif; ?>>
-          <?php foreach ($this->pictureFill as $picture): ?>
-			<span data-src="<?php echo $picture->src; ?>"<?php if ($picture->breakPoint): ?>  data-media="(min-width: <?php echo $picture->breakPoint; ?>px)"<?php endif; ?>></span>
+          <?php foreach ($this->pictureFill as $key=>$picture): ?>
+			<span data-src="<?php echo $picture->src; ?>"<?php if ($picture->breakPoint && $key > 0): ?> data-media="(min-width: <?php echo $picture->breakPoint; ?>px)"<?php endif; ?>></span>
 		  <?php endforeach; ?>
           <noscript>
 	  <?php endif; ?>
