@@ -11,4 +11,4 @@
  */
 
 $GLOBALS['TL_LANG']['tl_files']['breakPointCropping'][0] = "Image Sizes [responsive_images]";
-$GLOBALS['TL_LANG']['tl_files']['breakPointCropping'][1] = "Define the image sizes foreach Breakpoint. Syntax ( width | height | mode , ... ) e.g (200|300|center_center,300|0|proportional)";
+$GLOBALS['TL_LANG']['tl_files']['breakPointCropping'][1] = "Define the image sizes foreach Breakpoint. Syntax ( width | height | mode , ... ) e.g. (200|300|center_center, 300|0|proportional)";
