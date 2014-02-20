@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="system/modules/responsive_images/languages/en/tl_responsive_images.php" source-language="en">
+    <body>
+      <trans-unit id="tl_responsive_images.legend_layout">
+        <source>Module Settings</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.module.0">
+        <source>Element / Module</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.module.1">
+        <source>Please select the element for which you want to configure the fields.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.legend_fields">
+        <source>Field Settings</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.singleSRC.0">
+        <source>File Field (singleSRC)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.singleSRC.1">
+        <source>Please enter the singleSRC field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.alt.0">
+        <source>Alternate Field (alt)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.alt.1">
+        <source>Please enter the alt field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.altMandatory.0">
+        <source>Alt Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.altMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+
+      <trans-unit id="tl_responsive_images.title.0">
+        <source>Title Field (title)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.title.1">
+        <source>Please enter the title field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.titleMandatory.0">
+        <source>Title Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.titleMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.size.0">
+        <source>Size Field (size)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.size.1">
+        <source>Please enter the size field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.sizeMandatory.0">
+        <source>Size Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.sizeMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imagemargin.0">
+        <source>Image margin Field (imagemargin)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imagemargin.1">
+        <source>Please enter the image margin field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imagemarginMandatory.0">
+        <source>Image margin Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imagemarginMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imageUrl.0">
+        <source>Image url Field (imageUrl)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imageUrl.1">
+        <source>Please enter the image url field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imageUrlMandatory.0">
+        <source>Image url Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.imageUrlMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+	  <trans-unit id="tl_responsive_images.fullsize.0">
+        <source>Fullsize Field (fullsize)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.fullsize.1">
+        <source>Please enter the fullsize field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.fullsizeMandatory.0">
+        <source>Fullsize Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.fullsizeMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+	  <trans-unit id="tl_responsive_images.caption.0">
+        <source>Caption Field (caption)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.caption.1">
+        <source>Please enter the caption field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.captionMandatory.0">
+        <source>Caption Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.captionMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+	  <trans-unit id="tl_responsive_images.floating.0">
+        <source>Floating Field (floating)</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.floating.1">
+        <source>Please enter the floating field name.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.floatingMandatory.0">
+        <source>Floating Mandatory</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.floatingMandatory.1">
+        <source>Select if this field is mandatory.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.legend_settings">
+        <source>Ignore Settings</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.invisible.0">
+        <source>Ignore</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.invisible.1">
+        <source>Ignore the element.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.new.0">
+        <source>New responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.new.1">
+        <source>Create a new responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.show.0">
+        <source>Article details</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.show.1">
+        <source>Show the details of responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.edit.0">
+        <source>Edit responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.edit.1">
+        <source>Edit responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.editheader.0">
+        <source>Edit responsive image set settings</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.editheader.1">
+        <source>Edit the settings of responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.copy.0">
+        <source>Duplicate responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.copy.1">
+        <source>Duplicate responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.cut.0">
+        <source>Move responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.cut.1">
+        <source>Move responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.delete.0">
+        <source>Delete responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.delete.1">
+        <source>Delete responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.toggle.0">
+        <source>Ignore responsive image set</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.toggle.1">
+        <source>Ignore responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.pasteafter.0">
+        <source>Paste after</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.pasteafter.1">
+        <source>Paste after responsive image set ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.pasteinto.0">
+        <source>Paste into</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.pasteinto.1">
+        <source>Paste into layout ID %s</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

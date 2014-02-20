@@ -10,6 +10,18 @@
  * @copyright Andreas Nölke 2013 - 2014
  */
 
+$GLOBALS['BE_MOD']['design']['themes']['tables'][] = "tl_responsive_images";
+
+// Support extension easy_themes
+$GLOBALS['TL_EASY_THEMES_MODULES']['responsive_images'] = array
+(
+	'label'         => $GLOBALS['TL_LANG']['tl_theme']['responsive_images'][0],
+	'title'         => $GLOBALS['TL_LANG']['tl_theme']['responsive_images'][1],
+	'href_fragment' => 'table=tl_responsive_images',
+	'icon'          => 'system/modules/responsive_images/assets/image.png'
+);
+
+// only add this for the front end
 if (TL_MODE == "FE")
 {
 	/*
