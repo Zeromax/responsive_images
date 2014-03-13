@@ -43,7 +43,8 @@ $GLOBALS['TL_DCA']['tl_responsive_images'] = array
 		),
 		'label' => array
 		(
-			'fields'                  => array('section')
+			'fields'                  => array('module', 'singleSRC'),
+			'format'                  => '%s <span style="color:#b3b3b3;padding-left:3px">[%s]</span>',
 		),
 		'global_operations' => array
 		(
@@ -119,10 +120,9 @@ $GLOBALS['TL_DCA']['tl_responsive_images'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_responsive_images']['module'],
 			'filter'                  => true,
-			'inputType'               => 'select',
-			'options_callback'        => array('tl_responsive_images', 'getModulesAndElements'),
-			'eval'					  => array('chosen'=>true),
-			'save_callback'			  => array(array('tl_responsive_images', 'checkUniqueModule')),
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>true),
+//			'save_callback'			  => array(array('tl_responsive_images', 'checkUniqueModule')),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'singleSRC' => array
@@ -318,21 +318,10 @@ class tl_responsive_images extends Backend
 	 */
 	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
 	{
-		$tid = "";
-		$state = "";
-		$id = "";
-		if (version_compare(VERSION, '2.11', '>'))
-		{
-			$tid = Input::get('tid');
-			$state = Input::get('state');
-			$id = Input::get('id');
-		}
-		else
-		{
-			$tid = $this->Input->get('tid');
-			$state = $this->Input->get('state');
-			$id = $this->Input->get('id');
-		}
+		$tid = Input::get('tid');
+		$state = Input::get('state');
+		$id = Input::get('id');
+
 		if (strlen($tid))
 		{
 			$this->toggleVisibility($tid, ($state == 1));
@@ -372,16 +361,8 @@ class tl_responsive_images extends Backend
 	public function toggleVisibility($intId, $blnVisible)
 	{
 		// Check permissions to edit
-		if (version_compare(VERSION, '2.11', '>'))
-		{
-			Input::setGet('id', $intId);
-			Input::setGet('act', 'toggle');
-		}
-		else
-		{
-			$this->Input->setGet('id', $intId);
-			$this->Input->setGet('act', 'toggle');
-		}
+		Input::setGet('id', $intId);
+		Input::setGet('act', 'toggle');
 
 		// The onload_callbacks vary depending on the dynamic parent table (see #4894)
 		if (is_array($GLOBALS['TL_DCA']['tl_responsive_images']['config']['onload_callback']))
@@ -403,15 +384,8 @@ class tl_responsive_images extends Backend
 			$this->redirect('contao/main.php?act=error');
 		}
 
-		if (version_compare(VERSION, '3.1', '>='))
-		{
-			$objVersions = new Versions('tl_responsive_images', $intId);
-			$objVersions->initialize();
-		}
-		else
-		{
-			$this->createInitialVersion('tl_responsive_images', $intId);
-		}
+		$objVersions = new Versions('tl_responsive_images', $intId);
+		$objVersions->initialize();
 
 		// Trigger the save_callback
 		if (is_array($GLOBALS['TL_DCA']['tl_responsive_images']['fields']['invisible']['save_callback']))
@@ -427,26 +401,9 @@ class tl_responsive_images extends Backend
 		$this->Database->prepare("UPDATE tl_responsive_images SET tstamp=" . time() . ", invisible='" . ($blnVisible ? '' : 1) . "' WHERE id=?")
 			->execute($intId);
 
-		if (version_compare(VERSION, '3.1', '>='))
-		{
-			$objVersions->create();
-		}
-		else
-		{
-			$this->createNewVersion('tl_content', $intId);
-		}
+		$objVersions->create();
 
 		$this->log('A new version of record "tl_responsive_images.id=' . $intId . '" has been created', 'tl_responsive_images toggleVisibility()', TL_GENERAL);
-	}
-
-	/**
-	 * Return all content elements and modules as array
-	 *
-	 * @return array
-	 */
-	public function getModulesAndElements()
-	{
-		return array();
 	}
 
 }

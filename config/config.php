@@ -34,44 +34,45 @@ if (TL_MODE == "FE")
 	 * add hooks for creating smaller images
 	 */
 	$GLOBALS['TL_HOOKS']['parseTemplate'][] = array('PictureFill', 'parseTemplate');
-
-	$GLOBALS['TL_CONFIG']['hasImage'] = array(
-		// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption,floating
-		'text' => array(
-				'singleSRC'		=> 'singleSRC',
-				'alt'			=> 'alt',
-				'title'			=> 'title',
-				'size'			=> 'size',
-				'imagemargin'	=> 'imagemargin',
-				'imageUrl'		=> 'imageUrl',
-				'fullsize'		=> 'fullsize',
-				'caption'		=> 'caption',
-				'floating'		=> 'floating',
-				'mandatory'		=> array('singleSRC', 'addImage')
-		),
-		'accordionSingle' => array(
-				'singleSRC'		=> 'singleSRC',
-				'alt'			=> 'alt',
-				'title'			=> 'title',
-				'size'			=> 'size',
-				'imagemargin'	=> 'imagemargin',
-				'imageUrl'		=> 'imageUrl',
-				'fullsize'		=> 'fullsize',
-				'caption'		=> 'caption',
-				'floating'		=> 'floating',
-				'mandatory'		=> array('singleSRC', 'addImage')
-		),
-		// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption
-		'image' => array(
-				'singleSRC'		=> 'singleSRC',
-				'alt'			=> 'alt',
-				'title'			=> 'title',
-				'size'			=> 'size',
-				'imagemargin'	=> 'imagemargin',
-				'imageUrl'		=> 'imageUrl',
-				'fullsize'		=> 'fullsize',
-				'caption'		=> 'caption',
-				'mandatory'		=> array('singleSRC')
-		),
-	);
 }
+$GLOBALS['TL_CONFIG']['hasImage'] = array(
+	// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption,floating
+	'text' => array(
+			'singleSRC'		=> 'singleSRC',
+			'alt'			=> 'alt',
+			'title'			=> 'title',
+			'size'			=> 'size',
+			'imagemargin'	=> 'imagemargin',
+			'imageUrl'		=> 'imageUrl',
+			'fullsize'		=> 'fullsize',
+			'caption'		=> 'caption',
+			'floating'		=> 'floating',
+			'addImage'		=> 'addImage',
+			'mandatory'		=> array('singleSRC', 'addImage')
+	),
+	'accordionSingle' => array(
+			'singleSRC'		=> 'singleSRC',
+			'alt'			=> 'alt',
+			'title'			=> 'title',
+			'size'			=> 'size',
+			'imagemargin'	=> 'imagemargin',
+			'imageUrl'		=> 'imageUrl',
+			'fullsize'		=> 'fullsize',
+			'caption'		=> 'caption',
+			'floating'		=> 'floating',
+			'addImage'		=> 'addImage',
+			'mandatory'		=> array('singleSRC', 'addImage')
+	),
+	// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption
+	'image' => array(
+			'singleSRC'		=> 'singleSRC',
+			'alt'			=> 'alt',
+			'title'			=> 'title',
+			'size'			=> 'size',
+			'imagemargin'	=> 'imagemargin',
+			'imageUrl'		=> 'imageUrl',
+			'fullsize'		=> 'fullsize',
+			'caption'		=> 'caption',
+			'mandatory'		=> array('singleSRC')
+	),
+);
