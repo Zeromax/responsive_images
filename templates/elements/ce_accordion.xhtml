@@ -18,9 +18,9 @@
           <a href="<?php echo $this->href; ?>"<?php if ($this->linkTitle): ?> title="<?php echo $this->linkTitle; ?>"<?php endif; ?><?php echo $this->attributes; ?>>
         <?php endif; ?>
 
-        <?php if ($this->pictureFill): ?>
-	      <span data-picture data-alt="<?php echo $this->pictureFill[0]->alt; ?>"<?php if ($this->title): ?> data-title="<?php echo $this->pictureFill[0]->title; ?>"<?php endif; ?>>
-            <?php foreach ($this->pictureFill as $key=>$picture): ?>
+        <?php if ($this->pictureFillSingleSRC): ?>
+	      <span data-picture data-alt="<?php echo $this->pictureFillSingleSRC[0]->alt; ?>"<?php if ($this->title): ?> data-title="<?php echo $this->pictureFillSingleSRC[0]->title; ?>"<?php endif; ?>>
+            <?php foreach ($this->pictureFillSingleSRC as $key=>$picture): ?>
 			  <span data-src="<?php echo $picture->src; ?>"<?php if ($picture->breakPoint && $key > 0): ?> data-media="(min-width: <?php echo $picture->breakPoint; ?>px)"<?php endif; ?>></span>
 		    <?php endforeach; ?>
             <noscript>
@@ -28,7 +28,7 @@
 
             <img src="<?php echo $this->src; ?>"<?php echo $this->imgSize; ?> alt="<?php echo $this->alt; ?>"<?php if ($this->title): ?> title="<?php echo $this->title; ?>"<?php endif; ?>>
 
-        <?php if ($this->pictureFill): ?>
+        <?php if ($this->pictureFillSingleSRC): ?>
             </noscript>
           </span>
 	    <?php endif; ?>

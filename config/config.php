@@ -38,7 +38,7 @@ if (TL_MODE == "FE")
 $GLOBALS['TL_CONFIG']['hasImage'] = array(
 	// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption,floating
 	'text' => array(
-			'singleSRC'		=> 'singleSRC',
+		'singleSRC' => array(
 			'alt'			=> 'alt',
 			'title'			=> 'title',
 			'size'			=> 'size',
@@ -49,9 +49,10 @@ $GLOBALS['TL_CONFIG']['hasImage'] = array(
 			'floating'		=> 'floating',
 			'addImage'		=> 'addImage',
 			'mandatory'		=> array('singleSRC', 'addImage')
+		),
 	),
 	'accordionSingle' => array(
-			'singleSRC'		=> 'singleSRC',
+		'singleSRC' => array(
 			'alt'			=> 'alt',
 			'title'			=> 'title',
 			'size'			=> 'size',
@@ -62,10 +63,11 @@ $GLOBALS['TL_CONFIG']['hasImage'] = array(
 			'floating'		=> 'floating',
 			'addImage'		=> 'addImage',
 			'mandatory'		=> array('singleSRC', 'addImage')
+		),
 	),
 	// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption
 	'image' => array(
-			'singleSRC'		=> 'singleSRC',
+		'singleSRC' => array(
 			'alt'			=> 'alt',
 			'title'			=> 'title',
 			'size'			=> 'size',
@@ -74,5 +76,6 @@ $GLOBALS['TL_CONFIG']['hasImage'] = array(
 			'fullsize'		=> 'fullsize',
 			'caption'		=> 'caption',
 			'mandatory'		=> array('singleSRC')
+		),
 	),
 );

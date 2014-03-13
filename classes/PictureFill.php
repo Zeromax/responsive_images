@@ -47,43 +47,53 @@ class PictureFill
 		{
 			return;
 		}
-		$arrBreakPoints = $this->getBreakPoints($GLOBALS['TL_CONFIG']['breakPoints']);
 
-		if (!is_array($arrBreakPoints))
+		foreach ($arrImageFields as $srcField => $arrFields)
 		{
-			return;
-		}
+			$arrBreakPoints = $this->getBreakPoints($GLOBALS['TL_CONFIG']['breakPoints']);
 
-		$arrItem = $this->createItemArray($objTemplate, $arrImageFields);
-		$arrBreakPointConfig = $this->createBreakPointConfigs($arrBreakPoints, $arrItem['singleSRC']);
-
-		// create Picture Fill Array
-		$arrPictureFill = array();
-		foreach ($arrBreakPointConfig as $breakPoint)
-		{
-			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
-			if ($objImage)
+			if (!is_array($arrBreakPoints))
 			{
-				$arrPictureFill[] = $objImage;
+				return;
 			}
+			$arrFields['singleSRC'] = $srcField;
+			$arrItem = $this->createItemArray($objTemplate, $arrFields);
+			$arrBreakPointConfig = $this->createBreakPointConfigs($arrBreakPoints, $arrItem['singleSRC']);
+
+			// create Picture Fill Array
+			$arrPictureFill = array();
+			foreach ($arrBreakPointConfig as $breakPoint)
+			{
+				$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
+				if ($objImage)
+				{
+					$arrPictureFill[] = $objImage;
+				}
+			}
+			$objTemplate->{'pictureFill' . ucfirst($srcField)} = $arrPictureFill;
 		}
-		$objTemplate->pictureFill = $arrPictureFill;
 	}
 
 	/**
 	 * Get image fields as Array
 	 *
 	 * @param \FrontendTemplate $objTemplate
-	 * @param boolean $checkMandatory
 	 *
 	 * @return array
 	 */
-	protected function getImageFields($objTemplate, $checkMandatory = true)
+	protected function getImageFields($objTemplate)
 	{
 		if ($objTemplate->type != '' && is_array($GLOBALS['TL_CONFIG']['hasImage'][$objTemplate->type]))
 		{
 			$arrImageFields = $GLOBALS['TL_CONFIG']['hasImage'][$objTemplate->type];
-			if (($this->checkMandatoryFields($objTemplate, $arrImageFields) && $checkMandatory) || !$checkMandatory)
+			foreach ($arrImageFields as $key=>$arrFields)
+			{
+				if (!$this->checkMandatoryFields($objTemplate, $arrFields))
+				{
+					unset ($arrImageFields[$key]);
+				}
+			}
+			if (count($arrImageFields) > 0)
 			{
 				return $arrImageFields;
 			}
