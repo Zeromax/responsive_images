@@ -18,9 +18,12 @@ ClassLoader::addNamespace('ResponsiveImages');
  * Register the classes
  */
 ClassLoader::addClasses(array
-	(
+(
 	// Classes
-	'ResponsiveImages\PictureFill' => 'system/modules/responsive_images/classes/PictureFill.php'
+	'ResponsiveImages\PictureFill'				=> 'system/modules/responsive_images/classes/PictureFill.php',
+
+	// Classes
+	'ResponsiveImages\ResponsiveImagesModel'	=> 'system/modules/responsive_images/model/ResponsiveImagesModel.php'
 ));
 
 /**
