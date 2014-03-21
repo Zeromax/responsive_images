@@ -35,6 +35,7 @@ if (TL_MODE == "FE")
 	 */
 	$GLOBALS['TL_HOOKS']['parseTemplate'][] = array('PictureFill', 'parseTemplate');
 }
+$GLOBALS['TL_CONFIG']['imageFields'] = array('alt', 'title', 'size', 'imagemargin', 'imageUrl', 'fullsize', 'caption', 'floating', 'addImage', 'mandatory');
 $GLOBALS['TL_CONFIG']['hasImage'] = array(
 	// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption,floating
 	'text' => array(

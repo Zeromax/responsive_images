@@ -83,14 +83,15 @@ class PictureFill
 	 */
 	protected function getImageFields($objTemplate)
 	{
+		$this->getThemeImageFields($objTemplate->type);
 		if ($objTemplate->type != '' && is_array($GLOBALS['TL_CONFIG']['hasImage'][$objTemplate->type]))
 		{
 			$arrImageFields = $GLOBALS['TL_CONFIG']['hasImage'][$objTemplate->type];
-			foreach ($arrImageFields as $key=>$arrFields)
+			foreach ($arrImageFields as $key => $arrFields)
 			{
-				if (!$this->checkMandatoryFields($objTemplate, $arrFields))
+				if (!$this->checkMandatoryFields($objTemplate, $arrFields) || $objTemplate->$key == "")
 				{
-					unset ($arrImageFields[$key]);
+					unset($arrImageFields[$key]);
 				}
 			}
 			if (count($arrImageFields) > 0)
@@ -99,6 +100,57 @@ class PictureFill
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Get The Image field from a them and override the Globals config
+	 *
+	 * @global \PageModel $objPage
+	 * @param String $strType
+	 */
+	protected function getThemeImageFields($strType)
+	{
+		global $objPage;
+
+		if ($strType == "")
+		{
+			return;
+		}
+		// @todo add mobile Layout detection
+		$objLayout = $objPage->getRelated('layout');
+
+		$objResult = \Database::getInstance()->prepare('SELECT * FROM tl_responsive_images WHERE module=? AND pid=?')
+			->execute($strType, $objLayout->pid);
+
+		if ($objResult->numRows > 0)
+		{
+			$objResponsiveFields = $objResult->fetchAllAssoc();
+			foreach ($objResponsiveFields as $fieldConfig)
+			{
+				$result = array();
+				if ($fieldConfig['singleSRC'] == "")
+				{
+					continue;
+				}
+				$singleSRC = $fieldConfig['singleSRC'];
+				foreach ($fieldConfig as $key => $fieldName)
+				{
+					if ($fieldName == "" || !in_array($key, $GLOBALS['TL_CONFIG']['imageFields']))
+					{
+						continue;
+					}
+					else if (strpos($key, 'Mandatory') > 0)
+					{
+						$result['mandatory'][] = $fieldName;
+					}
+					else
+					{
+						$result[$key] = $fieldName;
+					}
+				}
+				$GLOBALS['TL_CONFIG']['hasImage'][$strType][$singleSRC] = $result;
+			}
+		}
 	}
 
 	/**
