@@ -156,8 +156,8 @@ class PictureFill
 	/**
 	 * Check if one of the mandatory fields is empty
 	 *
-	 * @param array $arrImageFields
 	 * @param \FrontendTemplate $objTemplate
+	 * @param array $arrImageFields
 	 *
 	 * @return boolean
 	 */
@@ -178,7 +178,7 @@ class PictureFill
 	}
 
 	/**
-	 * Crate the picture and return it as object
+	 * Create the picture and return it as object
 	 *
 	 * @param \FrontendTemplate $objTemplate
 	 * @param array $arrImageFields
