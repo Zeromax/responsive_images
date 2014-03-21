@@ -30,4 +30,16 @@ class ResponsiveImagesModel extends \Model
 	 */
 	protected static $strTable = 'tl_responsive_images';
 
+	public static function findByModuleAndPid($strType, $intPid)
+	{
+		if ($strType == "" || $intPid < 1)
+		{
+			return null;
+		}
+
+		$t = static::$strTable;
+		$arrOptions['order'] = "$t.module";
+
+		return static::findBy(array("$t.pid=? AND $t.module=? AND invisible=''"), array($intPid, $strType), $arrOptions);
+	}
 }
