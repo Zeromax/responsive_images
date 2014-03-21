@@ -199,7 +199,10 @@ class PictureFill
 			$arrItem['size'] = $breakPoint['size'];
 		}
 		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint['breakPoint'], '');
-		$objImage->breakPoint = $breakPoint['breakPoint'];
+		// @todo: create configureable field for breakpoint unit
+		$objImage->breakPointUnit = 'px';
+		$objImage->breakPoint = $breakPoint['breakPoint'] . $objImage->breakPointUnit;
+		$objImage->breakPointInt = $breakPoint['breakPoint'];
 		return $objImage;
 	}
 
