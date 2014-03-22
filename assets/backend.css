@@ -1,0 +1,25 @@
+.bp_height .tl_text,
+.bp_width .tl_text {
+	margin:1px 0;
+	width:70px;
+	border:1px solid #aaa;
+	padding:2px 3px;
+	border-radius:3px;
+	padding:3px;
+	background:url("hints.gif") no-repeat -20px 20px;
+}
+.bp_height .tl_text:focus,
+.bp_width .tl_text:focus {
+	background-color:#ebfdd7;
+}
+.bp_width .tl_text {
+	background-position:63px 1px !important;
+}
+.bp_height .tl_text {
+	background-position:64px -18px !important;
+}
+.ie9 .bp_height .tl_text,
+.ie9 .bp_width .tl_text {
+	padding-top:3px;
+	padding-bottom:3px
+}

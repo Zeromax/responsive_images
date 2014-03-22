@@ -21,6 +21,11 @@ $GLOBALS['TL_EASY_THEMES_MODULES']['responsive_images'] = array
 	'icon'          => 'system/modules/responsive_images/assets/image.png'
 );
 
+// only add this for the back end
+if (TL_MODE == "BE")
+{
+	$GLOBALS['TL_CSS'][] = "system/modules/responsive_images/assets/backend.css||static";
+}
 // only add this for the front end
 if (TL_MODE == "FE")
 {

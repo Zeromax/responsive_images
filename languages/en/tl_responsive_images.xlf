@@ -2,7 +2,7 @@
 <xliff version="1.1">
   <file datatype="php" original="system/modules/responsive_images/languages/en/tl_responsive_images.php" source-language="en">
     <body>
-      <trans-unit id="tl_responsive_images.legend_layout">
+      <trans-unit id="tl_responsive_images.layout_legend">
         <source>Module Settings</source>
       </trans-unit>
       <trans-unit id="tl_responsive_images.module.0">
@@ -11,7 +11,46 @@
       <trans-unit id="tl_responsive_images.module.1">
         <source>Please select the element for which you want to configure the fields.</source>
       </trans-unit>
-      <trans-unit id="tl_responsive_images.legend_fields">
+      <trans-unit id="tl_responsive_images.breakpoint_legend">
+        <source>Break point Settings</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.addBreakpoints.0">
+        <source>Break point override</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.addBreakpoints.1">
+        <source>Override the global break point config.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.breakpoints.0">
+        <source>Customize the break points</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.breakpoints.1">
+        <source>Customize the break points and Image sizes.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_breakpoint.0">
+        <source>Break point</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_breakpoint.1">
+        <source>Please insert the breakpoint, on which you want to change the image size.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_width.0">
+        <source>Image width</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_width.1">
+        <source>Here you can set the image width.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_height.0">
+        <source>Image height</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_height.1">
+        <source>Here you can set the image height.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_crop.0">
+        <source>Image resize mode</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_crop.1">
+        <source>Here you can set the resize mode.</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.fields_legend">
         <source>Field Settings</source>
       </trans-unit>
       <trans-unit id="tl_responsive_images.singleSRC.0">
@@ -32,7 +71,6 @@
       <trans-unit id="tl_responsive_images.altMandatory.1">
         <source>Select if this field is mandatory.</source>
       </trans-unit>
-
       <trans-unit id="tl_responsive_images.title.0">
         <source>Title Field (title)</source>
       </trans-unit>
@@ -117,7 +155,7 @@
       <trans-unit id="tl_responsive_images.floatingMandatory.1">
         <source>Select if this field is mandatory.</source>
       </trans-unit>
-      <trans-unit id="tl_responsive_images.legend_settings">
+      <trans-unit id="tl_responsive_images.settings_legend">
         <source>Ignore Settings</source>
       </trans-unit>
       <trans-unit id="tl_responsive_images.invisible.0">

@@ -97,8 +97,11 @@ $GLOBALS['TL_DCA']['tl_responsive_images'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'                => array(),
-		'default'                     => '{legend_layout},module;{legend_fields},singleSRC,alt,altMandatory,title,titleMandatory,size,sizeMandatory,imagemargin,imagemarginMandatory,imageUrl,imageUrlMandatory,fullsize,fullsizeMandatory,caption,captionMandatory,floating,floatingMandatory;{legend_settings},articleTpl,invisible',
+		'__selector__'                => array('addBreakpoints'),
+		'default'                     => '{layout_legend},module;{breakpoint_legend},addBreakpoints;{fields_legend},singleSRC,alt,altMandatory,title,titleMandatory,size,sizeMandatory,imagemargin,imagemarginMandatory,imageUrl,imageUrlMandatory,fullsize,fullsizeMandatory,caption,captionMandatory,floating,floatingMandatory;{settings_legend},articleTpl,invisible',
+	),
+	'subpalettes' => array(
+		'addBreakpoints'			  => 'breakpoints'
 	),
 
 	// Fields
@@ -124,6 +127,57 @@ $GLOBALS['TL_DCA']['tl_responsive_images'] = array
 			'eval'                    => array('mandatory'=>true),
 //			'save_callback'			  => array(array('tl_responsive_images', 'checkUniqueModule')),
 			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'addBreakpoints' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_responsive_images']['addBreakpoints'],
+			'exclude'                 => true,
+			'inputType'               => 'checkbox',
+			'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'clr m12'),
+			'sql'                     => "char(1) NOT NULL default ''"
+		),
+		'breakpoints' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_responsive_images']['breakpoints'],
+			'inputType'               => 'multiColumnWizard',
+			'exclude'                 => true,
+			'sql'                     => "blob NULL",
+			'eval'                    => array
+			(
+				'columnFields' => array
+				(
+					'bp_breakpoint' => array
+					(
+						'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_breakpoint'],
+						'exclude'               => true,
+						'inputType'             => 'text',
+						'eval'					=> array('style'=>'width:70px;margin-bottom:8px;', 'tl_class'=>'m12', 'mandatory'=>true, )
+					),
+					'bp_width' => array
+					(
+						'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_width'],
+						'exclude'               => true,
+						'inputType'             => 'text',
+						'eval'                  => array('style'=>'margin-bottom:8px;', 'tl_class'=>'bp_width', 'rgxp'=>'digit'),
+					),
+					'bp_height' => array
+					(
+						'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_height'],
+						'exclude'               => true,
+						'inputType'             => 'text',
+						'eval'                  => array('style'=>'margin-bottom:8px;', 'tl_class'=>'bp_height', 'rgxp'=>'digit'),
+					),
+					'bp_crop' => array
+					(
+						'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_crop'],
+						'exclude'               => true,
+						'inputType'             => 'select',
+						'options'               => $GLOBALS['TL_CROP'],
+						'reference'             => &$GLOBALS['TL_LANG']['MSC'],
+						'eval'                  => array('style'=>'width:154px;margin-bottom:8px;'),
+					)
+				)
+			)
 		),
 		'singleSRC' => array
 		(
