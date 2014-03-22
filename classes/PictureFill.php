@@ -28,16 +28,23 @@ class PictureFill
 	/**
 	 * contains the breakpoint config
 	 *
-	 * @var array $arrBreakpointConfig
+	 * @var array
 	 */
 	protected $arrBreakpointConfig = array();
 
 	/**
 	 * contains the Responsive Images Model
 	 *
-	 * @var \ResponsiveImagesModel $objModel
+	 * @var \ResponsiveImagesModel
 	 */
-	protected $objModel = array();
+	protected $objResponsiveModel = null;
+
+	/**
+	 * contains the Break Point Class
+	 *
+	 * @var \BreakPoint
+	 */
+	protected $objBreakPoint = null;
 
 	/**
 	 * Add the picture fill to the template
@@ -50,7 +57,8 @@ class PictureFill
 
 		// @todo add mobile Layout detection
 		$objLayout = $objPage->getRelated('layout');
-		$this->objModel = \ResponsiveImagesModel::findByModuleAndPid($objTemplate->type, $objLayout->pid);
+		$this->objResponsiveModel = \ResponsiveImagesModel::findByModuleAndPid($objTemplate->type, $objLayout->pid);
+		$this->objBreakPoint = new \BreakPoint();
 
 		$this->createPictureFill($objTemplate);
 	}
@@ -78,7 +86,7 @@ class PictureFill
 			$arrBreakpointConfig = $this->arrBreakpointConfig;
 			if (count($arrBreakpointConfig) < 1)
 			{
-				$arrBreakpointConfig[$objTemplate->type][$srcField] = $this->getBreakPoints();
+				$arrBreakpointConfig[$objTemplate->type][$srcField] = $this->objBreakPoint->getGlobalBreakPoints();
 			}
 			$arrFields['singleSRC'] = $srcField;
 			$arrItem = $this->createItemArray($objTemplate, $arrFields);
@@ -132,14 +140,14 @@ class PictureFill
 	 */
 	protected function getThemeImageFields($strType)
 	{
-		if ($this->objModel === null)
+		if ($this->objResponsiveModel === null)
 		{
 			return;
 		}
 		$arrBreakPointConfig = array();
-		while ($this->objModel->next())
+		while ($this->objResponsiveModel->next())
 		{
-			$objResponsiveFields = $this->objModel->current();
+			$objResponsiveFields = $this->objResponsiveModel->current();
 			if ($objResponsiveFields->singleSRC == "")
 			{
 				continue;
@@ -160,11 +168,11 @@ class PictureFill
 			if ($objResponsiveFields->addBreakpoints)
 			{
 				$arrBreakpoints = deserialize($objResponsiveFields->breakpoints);
-				$arrBreakPointConfig[$strType][$singleSRC] = $this->createBreakPointConfig($arrBreakpoints);
+				$arrBreakPointConfig[$strType][$singleSRC] = $this->objBreakPoint->createBreakPointConfig($arrBreakpoints);
 			}
 			else
 			{
-				$arrBreakPointConfig[$strType][$singleSRC] = $this->getBreakPoints();
+				$arrBreakPointConfig[$strType][$singleSRC] = $this->objBreakPoint->getGlobalBreakPoints();
 			}
 			$GLOBALS['TL_CONFIG']['hasImage'][$strType][$singleSRC] = $result;
 		}
@@ -239,69 +247,6 @@ class PictureFill
 			$arrItem[$key] = $objTemplate->$field;
 		}
 		return $arrItem;
-	}
-
-	/**
-	 * Create the Breakpoint config
-	 *
-	 * @param array $arrBreakpoints
-	 */
-	protected function createBreakPointConfig($arrBreakpoints)
-	{
-		if (!is_array($arrBreakpoints) || count($arrBreakpoints) < 1)
-		{
-			return $this->getBreakPoints();
-		}
-
-		$arrReturn = array();
-		foreach ($arrBreakpoints as $arrConfig)
-		{
-			if ($arrConfig['bp_breakpoint'] < 1)
-			{
-				continue;
-			}
-			$arr = array();
-			// breakpoint
-			$arr['breakPoint'] = $arrConfig['bp_width'];
-			// width
-			$arr['size'][] = (isset($arrConfig['bp_width']) && (int)$arrConfig['bp_width'] > 0) ? (int)$arrConfig['bp_width'] : 0;
-			// height
-			$arr['size'][] = (isset($arrConfig['bp_height']) && (int)$arrConfig['bp_height'] > 0) ? (int)$arrConfig['bp_height'] : 0;
-			// mode
-			$arr['size'][] = (isset($arrConfig['bp_crop']) && $arrConfig['bp_crop'] != "") ? $arrConfig['bp_crop'] : 'proportional';
-			$arrReturn[] = $arr;
-		}
-		if (count($arrReturn) < 1)
-		{
-			return $this->getBreakPoints();
-		}
-		return $arrReturn;
-	}
-
-	/**
-	 * Read the break points from the globals to fallback
-	 *
-	 * @return array
-	 */
-	protected function getBreakPoints()
-	{
-		$arrBreakPoints = trimsplit(',', $GLOBALS['TL_CONFIG']['breakPoints']);
-
-		// unique breakpoints
-		$arrBreakPoints = array_unique($arrBreakPoints);
-		// Sort Breakpoints -> smallest first
-		sort($arrBreakPoints);
-
-		$arrReturn = array();
-		foreach ($arrBreakPoints as $key => $breakPoint)
-		{
-			$arr = array();
-			$arr['breakPoint'] = (int)$breakPoint;
-			// width
-			$arr['size'][] = (int)$breakPoint;
-			$arrReturn[] = $arr;
-		}
-		return $arrReturn;
 	}
 
 }

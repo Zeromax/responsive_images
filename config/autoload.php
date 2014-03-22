@@ -20,6 +20,7 @@ ClassLoader::addNamespace('ResponsiveImages');
 ClassLoader::addClasses(array
 (
 	// Classes
+	'ResponsiveImages\BreakPoint'				=> 'system/modules/responsive_images/classes/BreakPoint.php',
 	'ResponsiveImages\PictureFill'				=> 'system/modules/responsive_images/classes/PictureFill.php',
 
 	// Classes
