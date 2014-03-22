@@ -128,7 +128,6 @@ class PictureFill
 	/**
 	 * Get The Image field from a them and override the Globals config
 	 *
-	 * @global \PageModel $objPage
 	 * @param String $strType
 	 */
 	protected function getThemeImageFields($strType)
@@ -199,9 +198,8 @@ class PictureFill
 	/**
 	 * Create the picture and return it as object
 	 *
-	 * @param \FrontendTemplate $objTemplate
-	 * @param array $arrImageFields
-	 * @param int $breakPoint
+	 * @param array $arrItem
+	 * @param array $breakPoint
 	 *
 	 * @return object
 	 */
@@ -244,10 +242,9 @@ class PictureFill
 	}
 
 	/**
-	 * Create the Breakpoint config for an image
+	 * Create the Breakpoint config
 	 *
-	 * @param String $strType
-	 * @param String $strSrcField
+	 * @param array $arrBreakpoints
 	 */
 	protected function createBreakPointConfig($arrBreakpoints)
 	{
@@ -265,7 +262,7 @@ class PictureFill
 			}
 			$arr = array();
 			// breakpoint
-			$arr['breakPoint'] =  $arrConfig['bp_width'];
+			$arr['breakPoint'] = $arrConfig['bp_width'];
 			// width
 			$arr['size'][] = (isset($arrConfig['bp_width']) && (int)$arrConfig['bp_width'] > 0) ? (int)$arrConfig['bp_width'] : 0;
 			// height
@@ -273,7 +270,6 @@ class PictureFill
 			// mode
 			$arr['size'][] = (isset($arrConfig['bp_crop']) && $arrConfig['bp_crop'] != "") ? $arrConfig['bp_crop'] : 'proportional';
 			$arrReturn[] = $arr;
-
 		}
 		if (count($arrReturn) < 1)
 		{
@@ -283,9 +279,7 @@ class PictureFill
 	}
 
 	/**
-	 * Read the break points from a given String and return it as array
-	 *
-	 * @param String $strBreakPoints
+	 * Read the break points from the globals to fallback
 	 *
 	 * @return array
 	 */
@@ -306,30 +300,6 @@ class PictureFill
 			// width
 			$arr['size'][] = (int)$breakPoint;
 			$arrReturn[] = $arr;
-		}
-		return $arrReturn;
-	}
-
-	/**
-	 * Create Config Array from config String
-	 *
-	 * @param type $breakPointConfig
-	 *
-	 * @return array
-	 */
-	protected function createBreakPointConfigArray($breakPointConfig)
-	{
-		$arrBreakPointConfig = trimsplit('|', $breakPointConfig);
-
-		$arrReturn = array();
-		if (isset($arrBreakPointConfig[0]) && (isset($arrBreakPointConfig[1]) || isset($arrBreakPointConfig[2])))
-		{
-			// width
-			$arrReturn[] = (int)$arrBreakPointConfig[0];
-			// height
-			$arrReturn[] = (isset($arrBreakPointConfig[1]) && (int)$arrBreakPointConfig[1] > 0) ? (int)$arrBreakPointConfig[1] : 0;
-			// mode
-			$arrReturn[] = (isset($arrBreakPointConfig[2]) && $arrBreakPointConfig[2] != "") ? $arrBreakPointConfig[2] : 'proportional';
 		}
 		return $arrReturn;
 	}
