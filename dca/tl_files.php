@@ -10,11 +10,61 @@
  * @copyright Andreas Nölke 2013 - 2014
  */
 
-$GLOBALS['TL_DCA']['tl_files']['palettes']['default'] = str_replace('meta', 'breakPointCropping;meta', $GLOBALS['TL_DCA']['tl_files']['palettes']['default']);
-$GLOBALS['TL_DCA']['tl_files']['fields']['breakPointCropping'] = array
+// load language file
+\Controller::loadLanguageFile('tl_responsive_images');
+
+// palettes
+$GLOBALS['TL_DCA']['tl_files']['palettes']['default'] = str_replace('meta', 'addBreakpoints,breakpoints;meta', $GLOBALS['TL_DCA']['tl_files']['palettes']['default']);
+
+// Fields
+$GLOBALS['TL_DCA']['tl_files']['fields']['addBreakpoints'] = array
 (
-	'label'                   => &$GLOBALS['TL_LANG']['tl_files']['breakPointCropping'],
-	'inputType'               => 'text',
-	'eval'                    => array('tl_class'=>'w50'),
-	'sql'                     => "varchar(255) NOT NULL default ''"
+	'label'                   => &$GLOBALS['TL_LANG']['tl_responsive_images']['addBreakpoints'],
+	'exclude'                 => true,
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'clr m12'),
+	'sql'                     => "char(1) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_files']['fields']['breakpoints'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_responsive_images']['breakpoints'],
+	'inputType'               => 'multiColumnWizard',
+	'exclude'                 => true,
+	'sql'                     => "blob NULL",
+	'eval'                    => array
+	(
+		'columnFields' => array
+		(
+			'bp_breakpoint' => array
+			(
+				'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_breakpoint'],
+				'exclude'               => true,
+				'inputType'             => 'text',
+				'eval'					=> array('style'=>'width:70px;margin-bottom:8px;', 'tl_class'=>'m12')
+			),
+			'bp_width' => array
+			(
+				'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_width'],
+				'exclude'               => true,
+				'inputType'             => 'text',
+				'eval'                  => array('style'=>'margin-bottom:8px;', 'tl_class'=>'bp_width', 'rgxp'=>'digit')
+			),
+			'bp_height' => array
+			(
+				'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_height'],
+				'exclude'               => true,
+				'inputType'             => 'text',
+				'eval'                  => array('style'=>'margin-bottom:8px;', 'tl_class'=>'bp_height', 'rgxp'=>'digit')
+			),
+			'bp_crop' => array
+			(
+				'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_crop'],
+				'exclude'               => true,
+				'inputType'             => 'select',
+				'options'               => $GLOBALS['TL_CROP'],
+				'reference'             => &$GLOBALS['TL_LANG']['MSC'],
+				'eval'                  => array('style'=>'width:154px;margin-bottom:8px;')
+			)
+		)
+	)
 );
