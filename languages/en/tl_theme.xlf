@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="system/modules/responsive_images/languages/en/tl_theme.php" source-language="en">
+    <body>
+	  <trans-unit id="tl_theme.responsive_images.0">
+        <source>responsive image</source>
+      </trans-unit>
+      <trans-unit id="tl_theme.responsive_images.1">
+        <source>Edit the responsive image set of theme ID %s</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
