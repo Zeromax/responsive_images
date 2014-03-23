@@ -15,7 +15,7 @@
  * System configuration
  */
 
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] = str_replace('maxImageWidth', 'breakPoints,mobileWidthFallback', $GLOBALS['TL_DCA']['tl_settings']['palettes']['default']);
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] = str_replace('maxImageWidth', 'maxImageWidth,breakPoints', $GLOBALS['TL_DCA']['tl_settings']['palettes']['default']);
 $GLOBALS['TL_DCA']['tl_settings']['fields']['breakPoints'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['breakPoints'],
