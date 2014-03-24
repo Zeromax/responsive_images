@@ -168,19 +168,7 @@ class PictureFill
 			{
 				continue;
 			}
-			$result = array();
 			$singleSRC = $objResponsiveFields->singleSRC;
-			foreach ($GLOBALS['TL_CONFIG']['imageFields'] as $field)
-			{
-				if ($objResponsiveFields->$field != "")
-				{
-					$result[$field] = $objResponsiveFields->$field;
-				}
-				if ($objResponsiveFields->{$field . 'Mandatory'})
-				{
-					$result['mandatory'][] = $fieldName;
-				}
-			}
 			$objFile = \FilesModel::findOneByPath($objTemplate->$singleSRC);
 			if ($objFile !== null && $objFile->addBreakpoints)
 			{
@@ -198,7 +186,7 @@ class PictureFill
 			{
 				$arrBreakPointConfig[$strType][$singleSRC] = $this->objBreakPoint->getGlobalBreakPoints();
 			}
-			$GLOBALS['TL_CONFIG']['hasImage'][$strType][$singleSRC] = $result;
+			$GLOBALS['TL_CONFIG']['hasImage'][$strType][$singleSRC] = $this->createImageFieldArray($objResponsiveFields);
 		}
 		$this->arrBreakpointConfig = $arrBreakPointConfig;
 	}
@@ -271,6 +259,29 @@ class PictureFill
 			$arrItem[$key] = $objTemplate->$field;
 		}
 		return $arrItem;
+	}
+
+	/**
+	 * Create the image field Array
+	 *
+	 * @param \ResponsiveImagesModel $objResponsiveFields
+	 *
+	 * @return array
+	 */
+	protected function createImageFieldArray($objResponsiveFields)
+	{
+		foreach ($GLOBALS['TL_CONFIG']['imageFields'] as $field)
+		{
+			if ($objResponsiveFields->$field != "")
+			{
+				$result[$field] = $objResponsiveFields->$field;
+			}
+			if ($objResponsiveFields->{$field . 'Mandatory'})
+			{
+				$result['mandatory'][] = $field;
+			}
+		}
+		return $result;
 	}
 
 }
