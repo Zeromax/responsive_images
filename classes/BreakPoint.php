@@ -60,7 +60,7 @@ class BreakPoint
 			}
 			$arr = array();
 			// breakpoint
-			$arr['breakPoint'] = $arrConfig['bp_width'];
+			$arr['breakPoint'] = $arrConfig['bp_breakpoint'];
 			// width
 			$arr['size'][] = (isset($arrConfig['bp_width']) && (int)$arrConfig['bp_width'] > 0) ? (int)$arrConfig['bp_width'] : 0;
 			// height
