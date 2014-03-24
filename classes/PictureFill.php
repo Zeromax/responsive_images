@@ -169,23 +169,7 @@ class PictureFill
 				continue;
 			}
 			$singleSRC = $objResponsiveFields->singleSRC;
-			$objFile = \FilesModel::findOneByPath($objTemplate->$singleSRC);
-			if ($objFile !== null && $objFile->addBreakpoints)
-			{
-				$arrBreakpoints = deserialize($objFile->breakpoints);
-			}
-			else if ($objResponsiveFields->addBreakpoints)
-			{
-				$arrBreakpoints = deserialize($objResponsiveFields->breakpoints);
-			}
-			if (is_array($arrBreakpoints) && count($arrBreakpoints) > 0)
-			{
-				$arrBreakPointConfig[$strType][$singleSRC] = $this->objBreakPoint->createBreakPointConfig($arrBreakpoints);
-			}
-			else
-			{
-				$arrBreakPointConfig[$strType][$singleSRC] = $this->objBreakPoint->getGlobalBreakPoints();
-			}
+			$arrBreakPointConfig[$strType][$singleSRC] = $this->createBreakPointArray($objTemplate->$singleSRC, $objResponsiveFields);
 			$GLOBALS['TL_CONFIG']['hasImage'][$strType][$singleSRC] = $this->createImageFieldArray($objResponsiveFields);
 		}
 		$this->arrBreakpointConfig = $arrBreakPointConfig;
@@ -282,6 +266,36 @@ class PictureFill
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Create the breakpoint array
+	 * order: 1. file | 2. image set | 3. global config
+	 *
+	 * @param String $strImageField
+	 * @param \ResponsiveImagesModel $objResponsiveFields
+	 *
+	 * @return array
+	 */
+	protected function createBreakPointArray($strImageField, $objResponsiveFields)
+	{
+		$objFile = \FilesModel::findOneByPath($strImageField);
+		if ($objFile !== null && $objFile->addBreakpoints)
+		{
+			$arrBreakpoints = deserialize($objFile->breakpoints);
+		}
+		else if ($objResponsiveFields->addBreakpoints)
+		{
+			$arrBreakpoints = deserialize($objResponsiveFields->breakpoints);
+		}
+		if (is_array($arrBreakpoints) && count($arrBreakpoints) > 0)
+		{
+			return $this->objBreakPoint->createBreakPointConfig($arrBreakpoints);
+		}
+		else
+		{
+			return $this->objBreakPoint->getGlobalBreakPoints();
+		}
 	}
 
 }
