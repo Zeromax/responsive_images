@@ -76,6 +76,7 @@ class PictureFill
 			return;
 		}
 
+		$arrBreakpointConfig = $this->arrBreakpointConfig;
 		foreach ($arrImageFields as $srcField => $arrFields)
 		{
 			if ($objTemplate->$srcField == "")
@@ -83,8 +84,7 @@ class PictureFill
 				continue;
 			}
 
-			$arrBreakpointConfig = $this->arrBreakpointConfig;
-			if (count($arrBreakpointConfig) < 1)
+			if (count($arrBreakpointConfig[$objTemplate->type][$srcField]) < 1)
 			{
 				$arrBreakpointConfig[$objTemplate->type][$srcField] = $this->objBreakPoint->getGlobalBreakPoints();
 			}
@@ -114,7 +114,7 @@ class PictureFill
 	 */
 	protected function getImageFields($objTemplate)
 	{
-		$this->getThemeImageFields($objTemplate->type);
+		$this->getThemeImageFields($objTemplate->type, $objTemplate);
 		if ($objTemplate->type != '' && is_array($GLOBALS['TL_CONFIG']['hasImage'][$objTemplate->type]))
 		{
 			$arrImageFields = $GLOBALS['TL_CONFIG']['hasImage'][$objTemplate->type];
@@ -137,8 +137,9 @@ class PictureFill
 	 * Get The Image field from a them and override the Globals config
 	 *
 	 * @param String $strType
+	 * @param \FrontendTemplate $objTemplate
 	 */
-	protected function getThemeImageFields($strType)
+	protected function getThemeImageFields($strType, $objTemplate)
 	{
 		if ($this->objResponsiveModel === null)
 		{
@@ -165,9 +166,17 @@ class PictureFill
 					$result['mandatory'][] = $fieldName;
 				}
 			}
-			if ($objResponsiveFields->addBreakpoints)
+			$objFile = \FilesModel::findOneByPath($objTemplate->$singleSRC);
+			if ($objFile !== null && $objFile->addBreakpoints)
+			{
+				$arrBreakpoints = deserialize($objFile->breakpoints);
+			}
+			else if ($objResponsiveFields->addBreakpoints)
 			{
 				$arrBreakpoints = deserialize($objResponsiveFields->breakpoints);
+			}
+			if (is_array($arrBreakpoints) && count($arrBreakpoints) > 0)
+			{
 				$arrBreakPointConfig[$strType][$singleSRC] = $this->objBreakPoint->createBreakPointConfig($arrBreakpoints);
 			}
 			else
@@ -213,7 +222,7 @@ class PictureFill
 	 */
 	protected function addImageToPictureFill($arrItem, $breakPoint)
 	{
-		if (is_array($breakPoint) && $breakPoint['breakPoint'] < 1 && $breakPoint['breakPoint'] == "")
+		if ($breakPoint['breakPoint'] < 1 && $breakPoint['breakPoint'] == "")
 		{
 			return null;
 		}
