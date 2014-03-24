@@ -83,25 +83,8 @@ class PictureFill
 			{
 				continue;
 			}
-
-			if (count($arrBreakpointConfig[$objTemplate->type][$srcField]) < 1)
-			{
-				$arrBreakpointConfig[$objTemplate->type][$srcField] = $this->objBreakPoint->getGlobalBreakPoints();
-			}
-			$arrFields['singleSRC'] = $srcField;
-			$arrItem = $this->createItemArray($objTemplate, $arrFields);
-
-			// create Picture Fill Array
-			$arrPictureFill = array();
-			foreach ($arrBreakpointConfig[$objTemplate->type][$srcField] as $breakPoint)
-			{
-				$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
-				if ($objImage)
-				{
-					$arrPictureFill[] = $objImage;
-				}
-			}
-			$objTemplate->{'pictureFill' . ucfirst($srcField)} = $arrPictureFill;
+			$arrBreakPoint = $arrBreakpointConfig[$objTemplate->type][$srcField];
+			$objTemplate->{'pictureFill' . ucfirst($srcField)} = $this->createPictureFillArray($arrBreakPoint, $srcField, $arrFields, $objTemplate);
 		}
 	}
 
@@ -131,6 +114,38 @@ class PictureFill
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Create the PictureFill array
+	 *
+	 * @param array $arrBreakpointConfig
+	 * @param String $strSrcField
+	 * @param array $arrFields
+	 * @param \FrontendTemplate $objTemplate
+	 *
+	 * @return array
+	 */
+	protected function createPictureFillArray($arrBreakpointConfig, $strSrcField, $arrFields, $objTemplate)
+	{
+		if (count($arrBreakpointConfig) < 1)
+		{
+			$arrBreakpointConfig = $this->objBreakPoint->getGlobalBreakPoints();
+		}
+		$arrFields['singleSRC'] = $strSrcField;
+		$arrItem = $this->createItemArray($objTemplate, $arrFields);
+
+		// create Picture Fill Array
+		$arrPictureFill = array();
+		foreach ($arrBreakpointConfig as $breakPoint)
+		{
+			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
+			if ($objImage)
+			{
+				$arrPictureFill[] = $objImage;
+			}
+		}
+		return $arrPictureFill;
 	}
 
 	/**
