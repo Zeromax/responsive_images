@@ -185,11 +185,11 @@ class PictureFill
 	 */
 	protected function checkMandatoryFields($objTemplate, $arrImageFields)
 	{
-		if (!is_array($arrImageFields['mandatory']))
+		if (!is_array($arrImageFields['eval']['mandatory']))
 		{
 			return true;
 		}
-		foreach ($arrImageFields['mandatory'] as $field)
+		foreach ($arrImageFields['eval']['mandatory'] as $field)
 		{
 			if ($objTemplate->$field == '')
 			{
@@ -240,6 +240,10 @@ class PictureFill
 		$arrItem = array();
 		foreach ($arrImageFields as $key => $field)
 		{
+			if ($key == 'eval')
+			{
+				continue;
+			}
 			$arrItem[$key] = $objTemplate->$field;
 		}
 		return $arrItem;
@@ -262,7 +266,7 @@ class PictureFill
 			}
 			if ($objResponsiveFields->{$field . 'Mandatory'})
 			{
-				$result['mandatory'][] = $field;
+				$result['eval']['mandatory'][] = $field;
 			}
 		}
 		return $result;

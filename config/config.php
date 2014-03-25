@@ -54,7 +54,9 @@ $GLOBALS['TL_CONFIG']['hasImage'] = array(
 			'caption'		=> 'caption',
 			'floating'		=> 'floating',
 			'addImage'		=> 'addImage',
-			'mandatory'		=> array('singleSRC', 'addImage')
+			'eval'			=> array(
+				'mandatory'		=> array('singleSRC', 'addImage')
+			)
 		),
 	),
 	'accordionSingle' => array(
@@ -68,7 +70,9 @@ $GLOBALS['TL_CONFIG']['hasImage'] = array(
 			'caption'		=> 'caption',
 			'floating'		=> 'floating',
 			'addImage'		=> 'addImage',
-			'mandatory'		=> array('singleSRC', 'addImage')
+			'eval'			=> array(
+				'mandatory'		=> array('singleSRC', 'addImage')
+			)
 		),
 	),
 	// singleSRC,alt,title,size,imagemargin,imageUrl,fullsize,caption
@@ -81,7 +85,9 @@ $GLOBALS['TL_CONFIG']['hasImage'] = array(
 			'imageUrl'		=> 'imageUrl',
 			'fullsize'		=> 'fullsize',
 			'caption'		=> 'caption',
-			'mandatory'		=> array('singleSRC')
+			'eval'			=> array(
+				'mandatory'		=> array('singleSRC')
+			)
 		),
 	),
 );
