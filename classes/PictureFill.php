@@ -135,6 +135,19 @@ class PictureFill
 		$arrFields['singleSRC'] = $strSrcField;
 		$arrItem = $this->createItemArray($objTemplate, $arrFields);
 
+		if (isset($GLOBALS['TL_HOOKS']['createPictureFillArray']) && is_array($GLOBALS['TL_HOOKS']['createPictureFillArray']))
+		{
+			foreach ($GLOBALS['TL_HOOKS']['createPictureFillArray'] as $callback)
+			{
+				$this->import($callback[0]);
+				$result = $this->$callback[0]->$callback[1]($arrBreakpointConfig, $strSrcField, $arrFields, $objTemplate, $arrItem);
+				if (isset($result) && is_array($result) && count($result) > 0)
+				{
+					return $result;
+				}
+			}
+		}
+
 		// create Picture Fill Array
 		$arrPictureFill = array();
 		foreach ($arrBreakpointConfig as $breakPoint)
