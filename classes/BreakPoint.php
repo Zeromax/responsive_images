@@ -67,6 +67,11 @@ class BreakPoint
 			$arr['size'][] = (isset($arrConfig['bp_height']) && (int)$arrConfig['bp_height'] > 0) ? (int)$arrConfig['bp_height'] : 0;
 			// mode
 			$arr['size'][] = (isset($arrConfig['bp_crop']) && $arrConfig['bp_crop'] != "") ? $arrConfig['bp_crop'] : 'proportional';
+			// set Ratio
+			if (isset($arrConfig['bp_ratio']) && $arrConfig['bp_ratio'] != '')
+			{
+				$arr['ratio'] = $this->setRatio($arrConfig['bp_ratio']);
+			}
 			$arrReturn[] = $arr;
 		}
 		if (count($arrReturn) < 1)
@@ -105,6 +110,22 @@ class BreakPoint
 		}
 		$this->arrGlobalBreakPoints = $arrReturn;
 		return $this->arrGlobalBreakPoints;
+	}
+
+	/**
+	 * Set ratio
+	 *
+	 * @param String $ratio
+	 * @return string
+	 */
+	protected function setRatio($ratio)
+	{
+		$ratio = str_replace('-', '', $ratio);
+		if (strpos($ratio, '.') === false )
+		{
+			$ratio .= '.0';
+		}
+		return $ratio;
 	}
 
 }

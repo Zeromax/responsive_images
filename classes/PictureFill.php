@@ -237,6 +237,12 @@ class PictureFill
 		$objImage->breakPointUnit = 'px';
 		$objImage->breakPoint = $breakPoint['breakPoint'] . $objImage->breakPointUnit;
 		$objImage->breakPointInt = $breakPoint['breakPoint'];
+		if (isset($breakPoint['ratio']))
+		{
+			// @todo: think about -webkit or other prefixes
+			$objImage->ratio = '(min-device-pixel-ratio: ' . $breakPoint['ratio'] . ')';
+			$objImage->ratioInt = $breakPoint['breakPoint'];
+		}
 		return $objImage;
 	}
 
