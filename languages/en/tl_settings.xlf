@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+  <file datatype="php" original="system/modules/responsive_images/languages/en/tl_settings.php" source-language="en">
+    <body>
+      <trans-unit id="tl_settings.breakPoints.0">
+        <source>Breakpoint [responsive_images]</source>
+      </trans-unit>
+      <trans-unit id="tl_settings.breakPoints.1">
+        <source>Define the screen widths on wich a smaller Image should be created. (e.g.: 600,800,1200)</source>
+      </trans-unit>
+      <trans-unit id="tl_settings.mobileWidthFallback.0">
+        <source>Screen width Fallback [responsive_images]</source>
+      </trans-unit>
+      <trans-unit id="tl_settings.mobileWidthFallback.1">
+        <source>If cookies or Javascript is not allowed than we use this Resolution for mobiles as Fallback.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
