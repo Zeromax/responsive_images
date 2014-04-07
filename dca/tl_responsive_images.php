@@ -175,6 +175,14 @@ $GLOBALS['TL_DCA']['tl_responsive_images'] = array
 						'options'               => $GLOBALS['TL_CROP'],
 						'reference'             => &$GLOBALS['TL_LANG']['MSC'],
 						'eval'                  => array('style'=>'width:154px;margin-bottom:8px;'),
+					),
+					'bp_ratio' => array
+					(
+						'label'                 => &$GLOBALS['TL_LANG']['tl_responsive_images']['bp_ratio'],
+						'exclude'               => true,
+						'inputType'             => 'text',
+						'reference'             => &$GLOBALS['TL_LANG']['MSC'],
+						'eval'                  => array('style'=>'width:30px;margin-bottom:8px;', 'rgxp'=>'digit', 'maxlength'=>3),
 					)
 				)
 			)

@@ -50,6 +50,12 @@
       <trans-unit id="tl_responsive_images.bp_crop.1">
         <source>Here you can set the resize mode.</source>
       </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_ratio.0">
+        <source>Ratio</source>
+      </trans-unit>
+      <trans-unit id="tl_responsive_images.bp_ratio.1">
+        <source>Here you can set the resolution ratio.</source>
+      </trans-unit>
       <trans-unit id="tl_responsive_images.fields_legend">
         <source>Field Settings</source>
       </trans-unit>
