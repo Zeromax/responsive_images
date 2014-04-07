@@ -19,7 +19,7 @@
       <?php if ($this->pictureFillSingleSRC): ?>
 	    <span data-picture data-alt="<?php echo $this->pictureFillSingleSRC[0]->alt; ?>"<?php if ($this->title): ?> data-title="<?php echo $this->pictureFillSingleSRC[0]->title; ?>"<?php endif; ?>>
           <?php foreach ($this->pictureFillSingleSRC as $key=>$picture): ?>
-			<span data-src="<?php echo $picture->src; ?>"<?php if ($picture->breakPoint && $key > 0): ?> data-media="(min-width: <?php echo $picture->breakPoint; ?>)"<?php endif; ?>></span>
+			<span data-src="<?php echo $picture->src; ?>"<?php if ($picture->breakPoint && $key > 0): ?> data-media="(min-width: <?php echo $picture->breakPoint; ?>)<?php if ($picture->ratio): ?> and <?php echo $picture->ratio; ?><?php endif; ?>"<?php endif; ?>></span>
 		  <?php endforeach; ?>
           <noscript>
 	  <?php endif; ?>
