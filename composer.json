@@ -1,5 +1,5 @@
 {
-	"name":"zeromax/contao-responsive_images",
+	"name":"zeromax/contao-responsive-images",
 	"description":"Create smaller Images by defined Breakpoint and reading the client Screen Width",
 	"keywords":["responsive","mobile"],
 	"type":"contao-module",
