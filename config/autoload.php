@@ -23,7 +23,7 @@ ClassLoader::addClasses(array
 	'ResponsiveImages\BreakPoint'				=> 'system/modules/responsive_images/classes/BreakPoint.php',
 	'ResponsiveImages\PictureFill'				=> 'system/modules/responsive_images/classes/PictureFill.php',
 
-	// Classes
+	// Model
 	'ResponsiveImages\ResponsiveImagesModel'	=> 'system/modules/responsive_images/model/ResponsiveImagesModel.php'
 ));
 
