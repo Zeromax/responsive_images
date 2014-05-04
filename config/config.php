@@ -8,6 +8,7 @@
  * @package   responsive_images
  * @author    Andreas Nölke
  * @copyright Andreas Nölke 2013 - 2014
+ * @license LGPL-3.0+
  */
 
 $GLOBALS['BE_MOD']['design']['themes']['tables'][] = "tl_responsive_images";
