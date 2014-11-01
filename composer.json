@@ -20,22 +20,19 @@
 	},
 	"require":{
 		"php":">=5.3",
-		"contao/core":">=3.1",
-		"contao-community-alliance/composer-installer": "*",
+		"contao/core":">=3.1,<4.0",
+		"contao-community-alliance/composer-plugin": "~2.0",
 		"menatwork/contao-multicolumnwizard":"3.2.*"
 	},
-    "autoload":{
-        "classmap":["system/"]
-    },
 	"replace":{
 		"contao-legacy/responsive_images":"*"
 	},
 	"extra":{
-        "contao": {
-            "sources":{
-                "": "system/modules/responsive_images"
-            }
-        },
+		"contao": {
+			"sources":{
+				"": "system/modules/responsive_images"
+			}
+		},
 		"branch-alias":{
 			"master":"2.0.x-dev"
 		}
