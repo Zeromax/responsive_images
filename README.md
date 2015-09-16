@@ -1,3 +1,6 @@
+[![Version](http://img.shields.io/packagist/v/zeromax/contao-responsive-images.svg?style=flat-square)](http://packagist.com/packages/zeromax/contao-responsive-images)
+[![License](http://img.shields.io/packagist/l/zeromax/contao-responsive-images.svg?style=flat-square)](http://packagist.com/packages/zeromax/contao-responsive-images)
+
 responsive_images
 =================
 
