@@ -44,6 +44,8 @@ class BreakPoint
 	 * Create the Breakpoint config
 	 *
 	 * @param array $arrBreakpoints
+	 *
+	 * @return array
 	 */
 	public function createBreakPointConfig($arrBreakpoints)
 	{
