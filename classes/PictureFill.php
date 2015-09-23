@@ -135,6 +135,8 @@ class PictureFill
 		}
 		$arrFields['singleSRC'] = $strSrcField;
 		$arrItem = $this->createItemArray($objTemplate, $arrFields);
+		$objFile = new \File($arrItem['singleSRC'], true);
+		$intOriginalWidth = $objFile->width;
 
 		if (isset($GLOBALS['TL_HOOKS']['createPictureFillArray']) && is_array($GLOBALS['TL_HOOKS']['createPictureFillArray']))
 		{
@@ -153,7 +155,7 @@ class PictureFill
 		$arrPictureFill = array();
 		foreach ($arrBreakpointConfig as $breakPoint)
 		{
-			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint);
+			$objImage = $this->addImageToPictureFill($arrItem, $breakPoint, $intOriginalWidth);
 			if ($objImage)
 			{
 				$arrPictureFill[] = $objImage;
@@ -218,10 +220,11 @@ class PictureFill
 	 *
 	 * @param array $arrItem
 	 * @param array $breakPoint
+	 * @param int   $intOriginalWidth
 	 *
 	 * @return object
 	 */
-	protected function addImageToPictureFill($arrItem, $breakPoint)
+	protected function addImageToPictureFill($arrItem, $breakPoint, $intOriginalWidth)
 	{
 		if ($breakPoint['breakPoint'] < 1 && $breakPoint['breakPoint'] == "")
 		{
@@ -231,10 +234,18 @@ class PictureFill
 		$objImage = new \stdClass;
 		if (isset($breakPoint['size']) && $breakPoint['size'] != "")
 		{
-			$arrItem['size'] = $breakPoint['size'];
+			if ($intOriginalWidth > $breakPoint['size'])
+			{
+				$arrItem['size'] = $breakPoint['size'];
+			}
 		}
+		else
+		{
+			return null;
+		}
+
 		\Controller::addImageToTemplate($objImage, $arrItem, $breakPoint['breakPoint'], '');
-		// @todo: create configureable field for breakpoint unit
+		// @todo: create configure able field for breakpoint unit
 		$objImage->breakPointUnit = 'px';
 		$objImage->breakPoint = $breakPoint['breakPoint'] . $objImage->breakPointUnit;
 		$objImage->breakPointInt = $breakPoint['breakPoint'];
